@@ -39,7 +39,7 @@
 			<configuration>
 				<instrumentation>
 					<includes>
-						<include>ahaakkoset.lautapeli*</include>
+						<include>ahaakkoset*</include>
 					</includes>
 				</instrumentation>
 			</configuration>
@@ -51,10 +51,10 @@
             <version>0.30</version>
 			<configuration>
 				<targetClasses>
-					<param>ahaakkoset.lautapeli*</param>
+					<param>ahaakkoset*</param>
 				</targetClasses>
 				<targetTests>
-					<param>ahaakkoset.lautapeli*</param>
+					<param>ahaakkoset*</param>
 				</targetTests>
 			</configuration>
         </plugin>
