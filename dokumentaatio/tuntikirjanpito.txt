@@ -2,3 +2,4 @@
 20.1.2014	3h	Suunnittelua ja luokkien peruskoodin kaavailua
 22.1.2014	1h	Luokkakaavion suunnittelu
 22.1.2014	2h	Koodausta... luokat ja joitakin perustoimintoja löytyy
+23.1.2014	3h	Koodausta ja testien luontia
