@@ -10,10 +10,11 @@ import org.junit.Test;
 public class PelaajaTest {
     
     Pelaaja pelaaja;
+    int enintaanKirjaimia = 7;
     
     @Before
     public void setUp() {
-        pelaaja = new Pelaaja("John Doe");
+        pelaaja = new Pelaaja("John Doe", enintaanKirjaimia);
     }
     
     @Test
@@ -28,20 +29,18 @@ public class PelaajaTest {
     }
     
     @Test
-    public void asetaAlkuKirjaimetAsettaaOikeatKirjaimet() {
-        String kirjaimet = "ABCDEFG";
-        List<Character> kirjainLista = new ArrayList<>();
-        for (int i = 0; i < kirjaimet.length(); i++) {
-            kirjainLista.add(kirjaimet.charAt(i));
+    public void lisaaKirjainToimiiTyhjaanListaan() {
+        assertTrue(pelaaja.getOmatKirjaimet().isEmpty());
+        assertTrue(pelaaja.lisaaKirjain(new Character('x')));
+    }
+    
+    @Test
+    public void kirjaintaEiVoiLisataJosListaTaynna() {
+        for (int i = 0; i < enintaanKirjaimia; i++) {
+            pelaaja.lisaaKirjain(new Character('x'));
         }
         
-        pelaaja.asetaAlkuKirjaimet(kirjainLista);
-        
-        String pelaajanKirjaimet = "";
-        for (Character c : pelaaja.getOmatKirjaimet()) {
-            pelaajanKirjaimet += c;
-        }
-        
-        assertEquals("ABCDEFG", pelaajanKirjaimet);
+        pelaaja.lisaaKirjain(new Character('z'));
+        assertTrue(pelaaja.getOmatKirjaimet().size() == enintaanKirjaimia);
     }
 }

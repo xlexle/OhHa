@@ -1,11 +1,12 @@
 package ahaakkoset;
+import ahaakkoset.gui.Kayttoliittyma;
 import ahaakkoset.sovelluslogiikka.Pelisessio;
 
 public class Main {
 
     public static void main(String[] args) {
         Pelisessio sessio = new Pelisessio();
-//        luo kayttoliittyma
+//        Kayttoliittyma UI = new Kayttoliittyma(sessio);
         sessio.aloita();
     }
 }

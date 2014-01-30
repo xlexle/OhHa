@@ -1,9 +1,6 @@
 package domain;
 
 import ahaakkoset.domain.Kirjainvarasto;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import org.junit.Before;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -69,9 +66,28 @@ public class KirjainvarastoTest {
     }
     
     @Test
-    public void otaAlkuKirjaimetPalauttaaOikeanKokoisenListan() {
-        int listanPituus = 7;
-        assertEquals(7, varasto.arvoAlkuKirjaimet(listanPituus).size());
+    public void arvoKirjainPalauttaaKirjaimen() {
+        Character x = 'x';
+        assertTrue(varasto.arvoKirjain().getClass().equals(x.getClass()));
+    }
+    
+    @Test
+    public void arvoKirjainPoistaaArvotunKirjaimenVarastosta() {
+        String neljaKpl = "AITNES";
+        String kolmeKpl = "LOKUAM";
+        String kaksiKpl = "VRJHYPDÖ";
+        String yksiKpl = "GBFCWQ";
+        Character x = varasto.arvoKirjain();
+        
+        if (neljaKpl.contains(x.toString())) {
+            assertEquals(3, kplVarastossa(x));
+        } else if (kolmeKpl.contains(x.toString())) {
+            assertEquals(2, kplVarastossa(x));
+        } else if (kaksiKpl.contains(x.toString())) {
+            assertEquals(1, kplVarastossa(x));
+        } else if (yksiKpl.contains(x.toString())) {
+            assertEquals(0, kplVarastossa(x));
+        }
     }
     
     private int kplVarastossa (char kirjain) {

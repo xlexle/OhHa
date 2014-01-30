@@ -11,8 +11,22 @@ public class RuutuTest {
     
     @Before
     public void setUp() {
-        ruutu = new Ruutu(1, 'A');
+        ruutu = new Ruutu(null, null);
     }
     
+    @Test
+    public void uudellaRuudullaEiKirjainta() {
+        kirjainLoytyy(false);
+    }
     
+    private void kirjainLoytyy(boolean haluttuTulos) {
+        boolean loytyy = true;
+        try {
+            char x = ruutu.getKirjain();
+        } catch (NullPointerException e) {
+            loytyy = false;
+        }
+        
+        assertTrue(loytyy == haluttuTulos);
+    }
 }

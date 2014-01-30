@@ -3,48 +3,63 @@ package ahaakkoset.sovelluslogiikka;
 import ahaakkoset.domain.Kirjainvarasto;
 import ahaakkoset.domain.Pelaaja;
 import ahaakkoset.domain.Pelilauta;
-//import ahaakkoset.sovelluslogiikka.Loppuyhteenveto;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Pelisessio {
-    // Pelisessio sisältää pelin palaset ja hallinnoi niitä; toimii yliluokkana
-    // interaktio-luokille jotka ovat käyttöliittyman ja pelaajan välikappaleita
-    protected int pelaajallaKirjaimia = 7;
-    protected Pelilauta pelilauta = new Pelilauta(16);
-    protected List<Pelaaja> pelaajat = new ArrayList<>();
-    protected Kirjainvarasto vapaatKirjaimet = new Kirjainvarasto();
+
+    private int kirjaimia = 7;
+    private Pelilauta pelilauta = new Pelilauta(10);
+    private List<Pelaaja> pelaajat = new ArrayList<>();
+    private Kirjainvarasto vapaatKirjaimet = new Kirjainvarasto();
 
     public Pelisessio() {
     }
-    
+
     public void aloita() {
-        EnnenPeliaInteraktiot alku = new EnnenPeliaInteraktiot();
+        EnnenPeliaInteraktiot alku = new EnnenPeliaInteraktiot(kirjaimia, pelilauta, pelaajat, vapaatKirjaimet);
         alku.suorita();
-        PelinInteraktiot peli = new PelinInteraktiot();
-        peli.suorita();
+        arvoPelaajienAloitusKirjaimet();
+//        PelinInteraktiot peli = new PelinInteraktiot(kirjaimia, pelilauta, pelaajat, vapaatKirjaimet);
+//        peli.suorita();
 //        Loppuyhteenveto loppu = new Loppuyhteenveto();
 //        kutsu metodia joka tulostaa loppuskriinin GUI:een
     }
-    
+
+    public boolean lisaaPelaaja(Pelaaja pelaaja) {
+        if (pelaajat.contains(pelaaja)) {
+            return false;
+        }
+        
+        pelaajat.add(pelaaja);
+        return true;
+    }
+
     public Pelaaja haePelaaja(String nimi) {
-        Pelaaja haettava = new Pelaaja(nimi);
-        
-        if (!pelaajat.contains(haettava)) {
-            return null; //mitä tähän?!
+        for (Pelaaja pelaaja : pelaajat) {
+            if (pelaaja.getNimi().equals(nimi)) {
+                return pelaaja;
+            }
         }
-        
-        return haettava;
+
+        return null;
     }
-    
-    public void arvoPelaajienAloitusKirjaimet() { //muutetaan metodiksi joka arpoo yhden kirjaimen kerrallaan per pelaaja...
-        for (int i = 0; i < pelaajat.size(); i++) {
-            pelaajat.get(i).asetaAlkuKirjaimet(vapaatKirjaimet.arvoAlkuKirjaimet(pelaajallaKirjaimia));
+
+    public void arvoPelaajienAloitusKirjaimet() {
+        for (int i = 0; i < kirjaimia; i++) {
+            for (int j = 0; j < pelaajat.size(); j++) {
+                pelaajat.get(j).lisaaKirjain(vapaatKirjaimet.arvoKirjain());
+            }
         }
     }
-    
+
 //    private void suoritaLoppu() {
 //        Loppuyhteenveto loppu = new Loppuyhteenveto();
 //        kutsu metodia joka tulostaa loppuskriinin GUI:een
 //    }
+    
+//    luotu testejä varten
+    public List<Pelaaja> getPelaajat() {
+        return pelaajat;
+    }
 }

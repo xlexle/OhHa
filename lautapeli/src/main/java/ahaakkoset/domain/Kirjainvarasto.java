@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Kirjainvarasto {   
-    private List<Character> kirjainSailio = luoKirjainSailio();
+    private List<Character> kirjainSailio = luoKirjainSailio(); // 64 kirjainta
     private Random arpoja = new Random();
 
     public Kirjainvarasto() {
@@ -31,20 +31,10 @@ public class Kirjainvarasto {
         return uusiSailio;
     }
     
-    public List arvoAlkuKirjaimet(int montako) {
-        List<Character> kirjaimet = new ArrayList<>();
-        
-        for (int i = 0; i < montako; i++) {
-            kirjaimet.add(arvottuKirjain());
-        }
-
-        return kirjaimet;
-    }
-    
-    private Character arvottuKirjain() {
+    public Character arvoKirjain() {
         int arvottuIndeksi = arpoja.nextInt(kirjainSailio.size());
-        char kirjain = kirjainSailio.get(arvottuIndeksi);
-//        kirjainSailio.remove(kirjain); // tarvitsee equalsin ennen kuin toimii?
+        Character kirjain = kirjainSailio.get(arvottuIndeksi);
+        kirjainSailio.remove(kirjain);
         return kirjain;
     }
     

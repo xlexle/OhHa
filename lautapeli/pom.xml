@@ -39,7 +39,9 @@
 			<configuration>
 				<instrumentation>
 					<includes>
-						<include>ahaakkoset*</include>
+						<include>ahaakkoset.domain/*.class</include>
+						<include>ahaakkoset.gui/*.class</include>
+						<include>ahaakkoset.sovelluslogiikka/*.class</include>
 					</includes>
 				</instrumentation>
 			</configuration>

@@ -3,3 +3,7 @@
 22.1.2014	1h	Luokkakaavion suunnittelu
 22.1.2014	2h	Koodausta... luokat ja joitakin perustoimintoja löytyy
 23.1.2014	3h	Koodausta ja testien luontia
+29.1.2014	3h	Viilattu Kirjainvarastoa; pelin aloituksen alustus edistynyt; testejä
+30.1.2014	6h	Edistyineitä luokkia: Pelaaja, Pelilauta, Ruutu, Sana
+				Ruudut nyt Mapissa jossa sijainti Integerinä; jokainen ruutu tietää mitkä ruudut sitä ympäröi
+				testit? pit raportti 0 mutations killed

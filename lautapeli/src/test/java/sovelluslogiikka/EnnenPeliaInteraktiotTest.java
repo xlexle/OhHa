@@ -1,8 +1,11 @@
 package sovelluslogiikka;
 
+import ahaakkoset.domain.Kirjainvarasto;
 import ahaakkoset.domain.Pelaaja;
+import ahaakkoset.domain.Pelilauta;
 import ahaakkoset.sovelluslogiikka.EnnenPeliaInteraktiot;
 import ahaakkoset.sovelluslogiikka.Pelisessio;
+import java.util.ArrayList;
 import org.junit.Before;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -13,13 +16,7 @@ public class EnnenPeliaInteraktiotTest {
     
     @Before
     public void setUp() {
-        alku = new EnnenPeliaInteraktiot();
-    }
-    
-    @Test
-    public void LuokkaOnPelisessionAliluokka() {
-        Pelisessio sessio = new Pelisessio();
-        assertTrue(alku.getClass().getSuperclass().equals(sessio.getClass()));
+        alku = new EnnenPeliaInteraktiot(7, new Pelilauta(10), new ArrayList<Pelaaja>(), new Kirjainvarasto());
     }
     
     @Test
@@ -27,11 +24,4 @@ public class EnnenPeliaInteraktiotTest {
         alku.aloitaPeli();
         assertTrue(alku.isPeliAlkaa());
     }
-    
-//    @Test
-//    public void lisaaPelaajaLaittaaUudenPelaajanSessioon() {
-//        Pelisessio sessio = new Pelisessio();
-//        alku.lisaaPelaaja("John Doe");
-//        assertEquals("John Doe: 0 pistettä", alku.haePelaaja("uusiPelaaja").toString());
-//    }
 }
