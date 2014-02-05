@@ -12,11 +12,6 @@ public class SanaTest {
     
     @Before
     public void setUp() {
-        sana = new Sana("Sana", "Merkitys on merkittävä", new Pelaaja("John Doe", 7));
-    }
-    
-    @Test
-    public void konstruktoriAsettaaArvotOikein() {
-        assertEquals("Sana: Merkitys on merkittävä (pelaajalle John Doe 0 pistettä)", sana.toString());
+        sana = new Sana("Sana", "Merkitys on merkittävä");
     }
 }

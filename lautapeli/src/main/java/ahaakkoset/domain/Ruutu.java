@@ -1,7 +1,8 @@
 package ahaakkoset.domain;
 
 public class Ruutu {
-
+    private boolean aktiivinen = false; 
+    private boolean voiAsettaaAktiiviseksi = true;
     private Character kirjain = null;
     private Ruutu vasen;
     private Ruutu yla;
@@ -11,6 +12,20 @@ public class Ruutu {
     public Ruutu(Ruutu vasen, Ruutu yla) {
         this.vasen = vasen;
         this.yla = yla;
+    }
+
+    public boolean isAktiivinen() {
+        return aktiivinen;
+    }
+
+    public void setAktiivinen(boolean aktiivinen) { // ei testattu
+        if (voiAsettaaAktiiviseksi) {
+            this.aktiivinen = aktiivinen;
+        }
+    }
+
+    public void eiVoiAsettaaAktiiviseksi() {
+        this.voiAsettaaAktiiviseksi = false;
     }
 
     public void setKirjain(Character kirjain) {

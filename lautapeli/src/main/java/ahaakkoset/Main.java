@@ -7,6 +7,6 @@ public class Main {
     public static void main(String[] args) {
         Pelisessio sessio = new Pelisessio();
 //        Kayttoliittyma UI = new Kayttoliittyma(sessio);
-        sessio.aloita();
+        sessio.kaynnista();
     }
 }

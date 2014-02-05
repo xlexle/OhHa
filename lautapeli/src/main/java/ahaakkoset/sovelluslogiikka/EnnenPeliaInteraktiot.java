@@ -6,7 +6,7 @@ import ahaakkoset.domain.Pelilauta;
 import java.util.List;
 
 public class EnnenPeliaInteraktiot {
-    private boolean peliAlkaa = false;
+
     private int kirjaimia;
     private Pelilauta pelilauta;
     private List<Pelaaja> pelaajat;
@@ -20,26 +20,38 @@ public class EnnenPeliaInteraktiot {
     }
 
     public void suorita() {
-//        while (!peliAlkaa) {            
-////            pelaaja on yhteydessä käyttöliittymään; looppi loppuu kun kaikki alkuparametrit on asetettu
-////            lisaaPelaaja kutsutaan 2 kertaa
-//        }
-
-        //testikoodia
-        lisaaPelaaja("Pietari");
-        lisaaPelaaja("Teräsmies");
+        lisaaPelaajat();
+        arvoPelaajienAloitusKirjaimet();
+        
     }
 
-    public void lisaaPelaaja(String nimi) {
-        Pelaaja pelaaja = new Pelaaja(nimi, kirjaimia);
-        pelaajat.add(pelaaja);
-    }
-    
-    public boolean isPeliAlkaa() {
-        return peliAlkaa;
+    private void lisaaPelaajat() {
+        int montako = 2;
+        while (pelaajat.size() < montako) {
+//            String nimi = 
+            lisaaPelaaja("nimi", kirjaimia);
+            lisaaPelaaja("nimi2", kirjaimia); //testiä varten
+        }
     }
 
-    public void aloitaPeli() {
-        this.peliAlkaa = true;
+    private boolean lisaaPelaaja(String nimi, int kirjaimia) {
+        if (pelaajat.contains(new Pelaaja(nimi, kirjaimia))) {
+            return false;
+        }
+        pelaajat.add(new Pelaaja(nimi, kirjaimia));
+        return true;
+    }
+
+    private void arvoPelaajienAloitusKirjaimet() {
+        for (int i = 0; i < kirjaimia; i++) {
+            for (int j = 0; j < pelaajat.size(); j++) {
+                pelaajat.get(j).lisaaKirjain(vapaatKirjaimet.arvoKirjain());
+            }
+        }
+    }
+
+    //luotu testejä varten
+    public List<Pelaaja> getPelaajat() {
+        return pelaajat;
     }
 }
