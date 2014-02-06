@@ -1,4 +1,4 @@
-package domain;
+package ahaakkoset.domain;
 
 import ahaakkoset.domain.Pelilauta;
 import ahaakkoset.domain.Ruutu;

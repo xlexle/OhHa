@@ -1,4 +1,4 @@
-package domain;
+package ahaakkoset.domain;
 
 import ahaakkoset.domain.Kirjainvarasto;
 import org.junit.Before;

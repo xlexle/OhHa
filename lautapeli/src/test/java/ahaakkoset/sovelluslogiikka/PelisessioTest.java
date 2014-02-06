@@ -1,4 +1,4 @@
-package sovelluslogiikka;
+package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.sovelluslogiikka.Pelisessio;
 import org.junit.Before;

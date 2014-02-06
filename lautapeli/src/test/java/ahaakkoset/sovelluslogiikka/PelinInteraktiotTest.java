@@ -1,4 +1,4 @@
-package sovelluslogiikka;
+package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.domain.Kirjainvarasto;
 import ahaakkoset.domain.Pelaaja;

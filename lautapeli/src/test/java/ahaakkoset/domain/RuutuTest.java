@@ -1,4 +1,4 @@
-package domain;
+package ahaakkoset.domain;
 
 import ahaakkoset.domain.Ruutu;
 import org.junit.Before;

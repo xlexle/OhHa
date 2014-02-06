@@ -1,4 +1,4 @@
-package domain;
+package ahaakkoset.domain;
 
 import ahaakkoset.domain.Pelaaja;
 import java.util.ArrayList;
