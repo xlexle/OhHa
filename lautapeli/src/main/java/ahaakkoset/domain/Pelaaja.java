@@ -3,15 +3,33 @@ package ahaakkoset.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Pelaaja edustaa ohjelmaan käyttöliittymän kautta yhteydessä olevaa
+ * henkilöä. Kullakin Pelaajalla on ainutlaatuinen nimi. Pelaajalla on
+ * käytössään kirjaimia enintään Pelisession määräämä määrä. Pelaaja pitää
+ * kirjaa suorittamistaan vuoroista ja luomistaan Sanoista.
+ *
+ * @author Ville Lehtinen
+ */
 public class Pelaaja {
 
     private String nimi;
     private int enintaanKirjaimia;
-    private int pisteet = 0;
+    /*
+     * Kertyneiden vuorojen lukumäärä. Mukaan lasketaan niin väliin jätetyt 
+     * kuin loppuunkin suoritetut vuorot.
+     */
     private int vuoroja = 0;
     private List<Character> omatKirjaimet;
     private List<Sana> luodutSanat;
 
+    /**
+     * Konstruktori asettaa Pelaajalle Pelisessiolta saadun ainutlaatuisen nimen
+     * ja kirjainten enimmäislukumäärän.
+     *
+     * @param nimi
+     * @param kirjaimia
+     */
     public Pelaaja(String nimi, int kirjaimia) {
         this.nimi = nimi;
         this.enintaanKirjaimia = kirjaimia;
@@ -19,10 +37,12 @@ public class Pelaaja {
         this.luodutSanat = new ArrayList<>();
     }
 
-    public void lisaaPisteita(int paljonko) { //tarvitsee suojat väärille inputeille, täällä vai käyttöliittymässä?
-        pisteet += paljonko;
-    }
-
+    /**
+     * Metodi lisää Pelisessiolta saadun kirjaimen pelaajan käyttöön.
+     *
+     * @param kirjain
+     * @return metodikutsun onnistuminen
+     */
     public boolean lisaaKirjain(Character kirjain) {
         if (omatKirjaimet.size() >= enintaanKirjaimia) {
             return false;
@@ -36,15 +56,33 @@ public class Pelaaja {
         vuoroja++;
     }
 
+    /**
+     * Metodi kirjaa Pelaajalle Pelisessiolta saadun uuden Sana-olion.
+     *
+     * @param sana
+     */
     public void lisaaSana(Sana sana) {
         luodutSanat.add(sana);
     }
 
+    /**
+     * Tätä käytetään Pelaajan tietojen esittämiseen graafisessa
+     * käyttöliittymässä.
+     *
+     * @return Pelaajan merkkijonoesitys
+     */
     @Override
-    public String toString() {
-        return nimi + ": " + pisteet + " pistettä"; //Placeholder
+    public String toString() { // ei testattu
+        return "Nimi: " + nimi + "\n" + "Pisteet: " + laskePisteet() + "\n" + "Kirjaimet: " + omatKirjaimet;
     }
-    
+
+    /**
+     * Metodi palauttaa sessiolle Pelaajan omistaman kirjaimen, joka vastaa
+     * parametrina saatua.
+     *
+     * @param kirjain
+     * @return kirjain
+     */
     public Character otaKirjain(Character kirjain) { // ei testattu
         Character palautettava = null;
         if (omatKirjaimet.contains(kirjain)) {
@@ -53,7 +91,7 @@ public class Pelaaja {
         }
         return palautettava;
     }
-    
+
     public String getNimi() {
         return nimi;
     }
@@ -89,7 +127,28 @@ public class Pelaaja {
         return true;
     }
 
-//    luotu testejä varten
+    /**
+     * Metodi laskee pelaajalle kirjattujen Sanojen pisteiden summan parametrina
+     * annettuun indeksiin asti. Koska Sanat kirjataan Pelaajalle siinä
+     * järjestykessä kun vuoroja kertyy, metodia voidaan käyttää pisteiden
+     * summan laskemiseen tiettyyn vuoron järjestysnumeroon saakka.
+     *
+     * @param viimIndeksi
+     * @return pisteiden summa
+     */
+    public int laskePisteet(int viimIndeksi) { // ei testattu
+        int pisteet = 0;
+        for (int i = 0; i < viimIndeksi; i++) {
+            pisteet += luodutSanat.get(i).getPisteet();
+        }
+
+        return pisteet;
+    }
+
+    public int laskePisteet() {
+        return laskePisteet(luodutSanat.size());
+    }
+
     public List<Character> getOmatKirjaimet() {
         return omatKirjaimet;
     }

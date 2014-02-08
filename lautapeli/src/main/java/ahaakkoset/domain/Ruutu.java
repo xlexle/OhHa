@@ -1,31 +1,41 @@
 package ahaakkoset.domain;
 
+/**
+ * Ruutu edustaa käyttöliittymän kaksiulotteisen ruudukon yksittäistä
+ * painiketta. Ruutu tarjoaa metodit sisältönsä sekä ympärillä olevien ruutujen
+ * määrittämiseen ja tunnistamiseen. Ruutu voi epäsuorasti määrittää siihen
+ * liittyvän käyttöliittymäpainikkeen tilan.
+ *
+ * @author Ville Lehtinen
+ */
 public class Ruutu {
-    private boolean aktiivinen = false; 
-    private boolean voiAsettaaAktiiviseksi = true;
+
+    private boolean voiSetEnabled = true;
     private Character kirjain = null;
     private Ruutu vasen;
     private Ruutu yla;
     private Ruutu oikea = null;
     private Ruutu ala = null;
 
+    /**
+     * Konstruktori asettaa vasemmaksi ja ylemmäksi Ruuduksi jotkin aiemmin
+     * luodut, Pelilaudan määräämät ruudut. Oikea ja alempi Ruutu määrätään
+     * kyseisten Ruutujen luonnin yhteydessä.
+     *
+     * @param vasen
+     * @param yla
+     */
     public Ruutu(Ruutu vasen, Ruutu yla) {
         this.vasen = vasen;
         this.yla = yla;
     }
 
-    public boolean isAktiivinen() {
-        return aktiivinen;
+    public void eiVoiSetEnabled() {
+        this.voiSetEnabled = false;
     }
 
-    public void setAktiivinen(boolean aktiivinen) { // ei testattu
-        if (voiAsettaaAktiiviseksi) {
-            this.aktiivinen = aktiivinen;
-        }
-    }
-
-    public void eiVoiAsettaaAktiiviseksi() {
-        this.voiAsettaaAktiiviseksi = false;
+    public boolean isVoiSetEnabled() {
+        return voiSetEnabled;
     }
 
     public void setKirjain(Character kirjain) {
@@ -56,7 +66,6 @@ public class Ruutu {
         return ala;
     }
 
-//    luotu testejä varten
     public Character getKirjain() {
         return kirjain;
     }

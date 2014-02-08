@@ -1,18 +1,20 @@
-Aihe: Ahaakkoset (työnimi)
-Yksinkertainen versio pelistä, joka pohjautuu Alfapet-lautapeliin. Peli koostuu ruudukosta, kirjaimista ja kirjaimista luotavista sanoista pysty- ja vaakasuunnassa. Pelissä on rajallinen määrä kirjainlaattoja ja jokainen pelaaja omistaa vuorollaan rajallisen määrän kirjaimia joista sanoja luodaan.
+Aihe: Ahaakkoset
 
-Normaalissa pelissä on säännöt sille, millaiset sanat kelpuutetaan, ja sanojen pisteytys tapahtuu kirjaimien pistearvojen sekä pelilaudalla olevien kertoimien perusteella. Tässä versiossa ainoa rajoite sanalle on, että se ei saa olla tavallinen tai käytössä oleva suomen kielen sana, mutta sen täytyy kuulostaa siltä. Pelaaja antaa sanalle merkityksen, ja sanasta saatavat pisteet määräytyvät yhden tai useamman kanssapelaajan arvosanoista.
+Yksinkertainen versio pelistä, joka pohjautuu Alfapet-lautapeliin. Peli koostuu ruudukosta, kirjaimista ja kirjaimista luotavista sanoista pysty- ja vaakasuunnassa. Pelissä on rajallinen määrä kirjaimia varastossa, ja pelaajien käyttöön arvotaan pelin edetessä kirjaimia tästä varastosta. Kullakin pelaajalla on enintään 8 kirjainta käytössä.
 
-Normaaliversiossa vastustajat eivät näe kirjaimiasi, mutta koska tämä on paikallisesti tietokoneella toimiva ohjelma ja hupiversio normaalista pelistä, kaikkien kirjaimet ovat samanaikaisesti näkyvillä. Samaten pelaajien tämänhetkiset pistemäärät ovat näkyvillä.
+Oikeassa lautapelissä on säännöt sille, millaiset sanat kelpuutetaan, ja sanojen pisteytys tapahtuu kirjaimien pistearvojen sekä pelilaudalla olevien kertoimien perusteella. Tässä versiossa ainoa rajoite sanalle on, että vastapelaajan ei ole tunnistettava sitä oikeaksi suomen kielen sanaksi. Sanan luova pelaaja antaa sanalle merkityksen, ja vastapelaaja arvostelee sanan asteikolla 4-10 perustuen siihen, kuinka suomenkieliseltä sana kuulostaa, ja kuinka järkevä tai hauska sen keksitty merkitys on.
+
+Normaaliversiossa vastustajat eivät näe kirjaimiasi, mutta koska tämä on paikallisesti tietokoneella toimiva hupiversio oikeasta pelistä, molempien pelaajien kirjaimet ovat samanaikaisesti näkyvillä. Pelaajat näkevät aina tämänhetkiset pisteensä, ja voivat vuoron alussa päättää jättää vuoron väliin. Pelin voi lopettaa missä tahansa vaiheessa.
 
 Käyttäjät: Pelaajat
 
 Pelaajan toiminnot:
-- pelin alkumuuttujien päättäminen (esim. pelaajien lukumäärä, käytettävä arvosana-asteikko, kirjainten lukumäärä per pelaaja, pelilaudan koko)
-- pelin aloittaminen
+- pelaajan nimen päättäminen (pelaajat 1 ja 2)
+- oman vuoron jättäminen väliin
 - pelin lopettaminen kesken
+	1. mikäli riittävästi vuoroja pelattu: luotujen sanojen listauksen tarkastelu
 - kirjaimen asettaminen ruudukkoon
-- sanan luonti ja sen merkityksen kirjoittaminen
-- vastustajan juuri luoman sanan arvostelu
-(- pelisession tapahtumahistorian katselu)
-- lisättyjen sanojen ja niiden merkitysten katselu
+	1. ruudun valitseminen
+	2. kirjaimen valitseminen
+- sanan luominen: merkityksen kirjoittaminen
+- vastustajan juuri luoman sanan arvostelu ennaltamäärätyllä asteikolla

@@ -3,11 +3,26 @@ package ahaakkoset.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Pelilauta edustaa käyttöliittymän kaksiulotteista ruudukkoa ja on Pelisession
+ * käytössä. Pelilauta luo itselleen sijainnin mukaan linkitetyn säiliön
+ * Ruutu-olioita. Pelisessio määrää Pelilaudan koon.
+ *
+ * @author Ville Lehtinen
+ */
 public class Pelilauta {
 
     private int sivunPituus;
     private Map<Integer, Ruutu> ruudut = new HashMap<>();
 
+    /**
+     * Konstruktori tarkistaa, että Pelisession parametrina saatu sivun pituus
+     * mahdollistaa ruudukon, jossa on olemassa yksi keskimmäinen ruutu. Muussa
+     * tapauksessa ohjelman suorittajalle ilmoitetaan ohjeet ja ohjelma
+     * lopetetaan. Konstruktori rakennuttaa Pelilaudan ruudukon.
+     *
+     * @param sivunPituus
+     */
     public Pelilauta(int sivunPituus) { // ei testattu
         if (sivunPituus % 2 != 1) {
             System.out.println("Anna pariton luku.");
@@ -18,10 +33,20 @@ public class Pelilauta {
         luoRuudukko();
     }
 
+    /**
+     * Metodi palauttaa sijaintia vastaavan Ruutu-olion.
+     *
+     * @param sijainti
+     * @return Ruutu
+     */
     public Ruutu haeRuutu(int sijainti) {
         return ruudut.get(sijainti);
     }
-
+    
+    /**
+     * Metodi luo ruudukon sivun pituuden perusteella.
+     * 
+     */
     private void luoRuudukko() {
         for (int i = 1; i <= sivunPituus * sivunPituus; i++) {
             Ruutu ruutu = new Ruutu(maaritaVasenRuutu(i), maaritaYlaRuutu(i));
@@ -30,7 +55,12 @@ public class Pelilauta {
             maaritaAlaRuuduksi(i);
         }
     }
-
+    
+    /**
+     * 
+     * @param sijainti
+     * @return 
+     */
     private Ruutu maaritaVasenRuutu(int sijainti) {
         Ruutu vasen;
         boolean vasemmallaEiRuutua = sijainti == 1 || (sijainti - 1) % sivunPituus == 0;
@@ -43,6 +73,11 @@ public class Pelilauta {
         return vasen;
     }
 
+    /**
+     * 
+     * @param sijainti
+     * @return 
+     */
     private Ruutu maaritaYlaRuutu(int sijainti) {
         Ruutu yla;
         boolean yllaEiRuutua = sijainti <= sivunPituus;
@@ -54,6 +89,10 @@ public class Pelilauta {
         return yla;
     }
 
+    /**
+     * 
+     * @param ruudunSijainti 
+     */
     private void maaritaOikeaksiRuuduksi(int ruudunSijainti) {
         boolean vasemmallaOnRuutu = ruudunSijainti != 1 || (ruudunSijainti - 1) % sivunPituus != 0;
         if (vasemmallaOnRuutu) {
@@ -61,6 +100,10 @@ public class Pelilauta {
         }
     }
 
+    /**
+     * 
+     * @param ruudunSijainti 
+     */
     private void maaritaAlaRuuduksi(int ruudunSijainti) {
         boolean yllaOnRuutu = ruudunSijainti > sivunPituus;
         if (yllaOnRuutu) {

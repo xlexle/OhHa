@@ -8,4 +8,8 @@
 					Ruudut nyt Mapissa jossa sijainti Integerinä; jokainen ruutu tietää mitkä ruudut sitä ympäröi
 					testit? pit raportti 0 mutations killed
 4.2.2014	5h	 	Korjauksia, vuoropohjaisen logiikan suunnittelua ja toteutusta
-5.2.2013	3h		Vuoropohjalogiikka jatkuu... Uusi luokka: Ruudunaktivoija
+5.2.2014	3h		Vuoropohjalogiikka jatkuu...
+6.2.2014	2h		Käyttöliittymän suunnittelua
+7.2.2014	8h		Massiivista ohjelman uudelleenjärjestelyä, GUI:lla kaikki peruselementit olemassa
+8.2.2014	7h		JavaDoc melko pitkällä, testejä, luokkakaavio päivitetty, aiheen kuvaus päivitetty
+					Rupuiset sekvenssikaaviot lisätty, pit-raportti päivitetty (GUI ei sisälly)

@@ -53,13 +53,20 @@
             <version>0.30</version>
 			<configuration>
 				<targetClasses>
-					<param>ahaakkoset.*</param>
+					<param>ahaakkoset.domain*</param>
+					<param>ahaakkoset.sovelluslogiikka*</param>
 				</targetClasses>
 				<targetTests>
-					<param>ahaakkoset.*</param>
+					<param>ahaakkoset.domain*</param>
+					<param>ahaakkoset.sovelluslogiikka*</param>
 				</targetTests>
 			</configuration>
         </plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<version>2.9.1</version>
+		</plugin> 
     </plugins>
 </build>
 </project>
