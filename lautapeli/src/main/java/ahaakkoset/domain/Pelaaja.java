@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Pelaaja edustaa ohjelmaan käyttöliittymän kautta yhteydessä olevaa henkilöä.
+ * Pelaaja edustaa ohjelmaan käyttöliittymän kautta yhteydessä olevaa käyttäjää.
  * Kullakin Pelaajalla on ainutlaatuinen nimi. Pelaajalla on käytössään
  * kirjaimia enintään Pelisession määräämä määrä. Pelaaja pitää kirjaa
  * suorittamistaan vuoroista ja luomistaan Sanoista.

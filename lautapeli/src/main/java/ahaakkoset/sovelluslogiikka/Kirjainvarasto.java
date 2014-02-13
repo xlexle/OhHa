@@ -13,13 +13,14 @@ import java.util.Random;
  */
 public class Kirjainvarasto {
 
-    private List<Character> kirjainSailio = luoKirjainSailio(); // 64 kirjainta
+    private List<Character> kirjainSailio; // 64 kirjainta
     private Random arpoja = new Random();
 
     /**
      *
      */
-    public Kirjainvarasto() {
+    public Kirjainvarasto(int kerroin) {
+        luoKirjainSailio(kerroin);
     }
 
     /**
@@ -33,24 +34,36 @@ public class Kirjainvarasto {
      * 1. https://www.cs.tut.fi/~jkorpela/kielikello/kirjtil.html
      *
      */
-    private List luoKirjainSailio() {
-        String kirjaimet = "AITNESLOKUÄMVRJHYPDÖGBFCWQ";
-        List<Character> uusiSailio = new ArrayList<>();
+    private void luoKirjainSailio(int kerroin) {
+        this.kirjainSailio = new ArrayList<>();
+        String lisaaNelja = "AITNES";
+        String lisaaKolme = "LOKUÄM";
+        String lisaaKaksi = "VRJHYPDÖ";
+        String lisaaYksi = "GBFCWQ";
 
-        for (int i = 0; i < kirjaimet.length(); i++) {
-            uusiSailio.add(kirjaimet.charAt(i));
+        for (int i = 0; i < lisaaNelja.length(); i++) {
+            for (int j = 0; j < 4 * kerroin; j++) {
+                kirjainSailio.add(lisaaNelja.charAt(i));
+            }
         }
-        for (int i = 0; i < 20; i++) {
-            uusiSailio.add(kirjaimet.charAt(i));
+        
+        for (int i = 0; i < lisaaKolme.length(); i++) {
+            for (int j = 0; j < 3 * kerroin; j++) {
+                kirjainSailio.add(lisaaKolme.charAt(i));
+            }
         }
-        for (int i = 0; i < 12; i++) {
-            uusiSailio.add(kirjaimet.charAt(i));
+        
+        for (int i = 0; i < lisaaKaksi.length(); i++) {
+            for (int j = 0; j < 2 * kerroin; j++) {
+                kirjainSailio.add(lisaaKaksi.charAt(i));
+            }
         }
-        for (int i = 0; i < 6; i++) {
-            uusiSailio.add(kirjaimet.charAt(i));
+        
+        for (int i = 0; i < lisaaYksi.length(); i++) {
+            for (int j = 0; j < kerroin; j++) {
+                kirjainSailio.add(lisaaYksi.charAt(i));
+            }
         }
-
-        return uusiSailio;
     }
 
     /**

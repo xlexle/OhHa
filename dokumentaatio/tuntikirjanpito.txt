@@ -14,3 +14,10 @@
 8.2.2014	7h		JavaDoc melko pitkällä, testejä, luokkakaavio päivitetty, aiheen kuvaus päivitetty
 					Rupuiset sekvenssikaaviot lisätty, pit-raportti päivitetty (GUI ei sisälly)
 12.2.2014	3h		TapahtumienKuuntelijan ja Ruudunaktivoijan logiikkaa
+13.2.2014	2h		Ruudunaktivoija räjähtää käsiin. Yksittäisen ruudun tilaan vaikuttavia tekijöitä on 
+					huomattavasti enemmän kuin osasin ennakoida, ja alussa helpolta tuntunut ruudukon 
+					tekeminen onkin paljon aikaavievämpi asia. Aikaa ja vaivaa säästääkseni luovun kokonaan
+					ruudukosta ja toteutan yksinkertaisemman ja helpommin testattavan tekstikentän
+					johon pelissä luotavat sanat kirjoitetaan.
+13.2.2014	2h		Ohjelman luokkarakenne siivottu. Käyttöliittymään uusia luokkia: TekstiKentanKuuntelija, 
+					TekstiPanel. Luokkakaavio päivitetty. Ohjelmakuvaus päivitetty.

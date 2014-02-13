@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  */
 public class ToimintoPanel extends JPanel {
 
-    private TapahtumienKuuntelija kuuntelija;
+    private TapahtumienKuuntelija tk;
     private Kirjainvarasto varasto;
     private JButton lopetaPeliPainike;
     private JButton uusiSanaPainike;
@@ -26,18 +26,18 @@ public class ToimintoPanel extends JPanel {
      *
      * @param lm
      * @param varasto
-     * @param kuuntelija
+     * @param tkk
      */
-    public ToimintoPanel(LayoutManager lm, Kirjainvarasto varasto, TapahtumienKuuntelija kuuntelija) { // ei testattu
+    public ToimintoPanel(LayoutManager lm, Kirjainvarasto varasto, TapahtumienKuuntelija tkk) { // ei testattu
         super(lm);
         this.varasto = varasto;
-        this.kuuntelija = kuuntelija;
+        this.tk = tkk;
         luoKomponentit();
     }
 
     private void luoKomponentit() { // ei testattu
         this.lopetaPeliPainike = new JButton("Lopeta peli");
-        lopetaPeliPainike.addActionListener(kuuntelija);
+        lopetaPeliPainike.addActionListener(tk);
         add(lopetaPeliPainike);
 
         add(new JLabel(""));
@@ -50,14 +50,14 @@ public class ToimintoPanel extends JPanel {
 
         KirjaimetTextArea kirjaimet = new KirjaimetTextArea(varasto.getKirjainSailio());
         add(kirjaimet);
-        kuuntelija.setKirjaimetTextArea(kirjaimet);
+        tk.setKirjaimetTextArea(kirjaimet);
 
         this.uusiSanaPainike = new JButton("Luo uusi sana");
-        uusiSanaPainike.addActionListener(kuuntelija);
+        uusiSanaPainike.addActionListener(tk);
         add(uusiSanaPainike);
 
         this.lopetaVuoroPainike = new JButton("Jätä vuoro väliin");
-        lopetaVuoroPainike.addActionListener(kuuntelija);
+        lopetaVuoroPainike.addActionListener(tk);
         add(lopetaVuoroPainike);
     }
 

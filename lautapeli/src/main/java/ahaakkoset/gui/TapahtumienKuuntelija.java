@@ -1,6 +1,5 @@
 package ahaakkoset.gui;
 
-import ahaakkoset.domain.Ruutu;
 import ahaakkoset.sovelluslogiikka.Pelisessio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,12 +19,10 @@ public class TapahtumienKuuntelija implements ActionListener {
 
     private JFrame frame;
     private ToimintoPanel toimintoPanel;
-    private PelilautaPanel pelilautaPanel;
     private KirjaimetTextArea kirjaimetTextArea;
     private PelaajaTextArea pelaaja1TextArea;
     private PelaajaTextArea pelaaja2TextArea;
     private Pelisessio sessio;
-    private Ruudunaktivoija ruudunaktivoija;
     private JButton seuraavaPainike;
 
     /**
@@ -50,23 +47,23 @@ public class TapahtumienKuuntelija implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent tapahtuma) { // ei testattu
-        if (pelilautaPanel.getRuudukkoRuutuja().containsKey((JButton) tapahtuma.getSource())) {
-            JButton ruudunNappi = (JButton) tapahtuma.getSource();
-            suoritaKirjaimenLisays(ruudunNappi);
-            
-        }
-
-        if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaVuoroPainike()) {
-            suoritaTyhjanSananLisays();
-        }
-
-        if (tapahtuma.getSource() == (JButton) toimintoPanel.getUusiSanaPainike()) {
-            suoritaUudenSananLisays();
-        }
-
-        if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaPeliPainike()) {
-            suoritaPelinLopetus();
-        }
+//        if (pelilautaPanel.getRuudukkoRuutuja().containsKey((JButton) tapahtuma.getSource())) {
+//            JButton ruudunNappi = (JButton) tapahtuma.getSource();
+//            suoritaKirjaimenLisays(ruudunNappi);
+//            
+//        }
+//
+//        if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaVuoroPainike()) {
+//            suoritaTyhjanSananLisays();
+//        }
+//
+//        if (tapahtuma.getSource() == (JButton) toimintoPanel.getUusiSanaPainike()) {
+//            suoritaUudenSananLisays();
+//        }
+//
+//        if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaPeliPainike()) {
+//            suoritaPelinLopetus();
+//        }
     }
 
     private void suoritaPelinLopetus() { // ei testattu
@@ -103,7 +100,7 @@ public class TapahtumienKuuntelija implements ActionListener {
      *
      */
     public void alustaSeuraavaVuoro() {
-        ruudunaktivoija.ennenEnsimmaistaKirjainta();
+//        ruudunaktivoija.ennenEnsimmaistaKirjainta();
         toimintoPanel.getUusiSanaPainike().setEnabled(false);
         toimintoPanel.getLopetaVuoroPainike().setEnabled(true);
         sessio.seuraavaPelaaja();
@@ -114,36 +111,36 @@ public class TapahtumienKuuntelija implements ActionListener {
     /**
      *
      */
-    private void suoritaKirjaimenLisays(JButton ruudunNappi) { // ei testattu
-        Ruutu ruutu = pelilautaPanel.haeRuutu(ruudunNappi);
-        String kirjain = "";
-
-        if (ruutu.getKirjain() != null) {
-            kirjain += ruutu.getKirjain();
-        } else {
-            kirjain = kirjainDialog();
-            if (kirjain == null) {
-                return;
-            }
-        }
-
-        maaritaAktiiviset(ruudunNappi);
-
-        Character c = (Character) kirjain.charAt(0);
-        sessio.lisaaKirjainSanaan(c); //lisaa c:n ja poistaa sen pelaajalta
-        tarkistaPainikkeet();
-
-        ruudunNappi.setText(kirjain);
-        ruutu.setKirjain(c);
-        
-        if (seuraavaPainike == null) {
-            suoritaUudenSananLisays();
-        } else if (!seuraavaPainike.isEnabled()) {
-            suoritaUudenSananLisays();
-        }
-        
-        paivitaTiedot();
-    }
+//    private void suoritaKirjaimenLisays(JButton ruudunNappi) { // ei testattu
+//        Ruutu ruutu = pelilautaPanel.haeRuutu(ruudunNappi);
+//        String kirjain = "";
+//
+//        if (ruutu.getKirjain() != null) {
+//            kirjain += ruutu.getKirjain();
+//        } else {
+//            kirjain = kirjainDialog();
+//            if (kirjain == null) {
+//                return;
+//            }
+//        }
+//
+//        maaritaAktiiviset(ruudunNappi);
+//
+//        Character c = (Character) kirjain.charAt(0);
+//        sessio.lisaaKirjainSanaan(c); //lisaa c:n ja poistaa sen pelaajalta
+//        tarkistaPainikkeet();
+//
+//        ruudunNappi.setText(kirjain);
+//        ruutu.setKirjain(c);
+//        
+//        if (seuraavaPainike == null) {
+//            suoritaUudenSananLisays();
+//        } else if (!seuraavaPainike.isEnabled()) {
+//            suoritaUudenSananLisays();
+//        }
+//        
+//        paivitaTiedot();
+//    }
 
     /**
      *
@@ -165,19 +162,6 @@ public class TapahtumienKuuntelija implements ActionListener {
                 "");
 
         return kirjain;
-    }
-
-    /**
-     *
-     */
-    private void maaritaAktiiviset(JButton ruudunNappi) { // ei testattu
-        if (sessio.sanassaEiVielaKirjaimia()) {
-            ruudunaktivoija.maaritaEnsimmaisenRuudunJalkeisetAktiiviset(ruudunNappi);
-        } else {
-            ruudunaktivoija.maaritaSeuraavatAktiiviset(ruudunNappi);
-        }
-
-        ruudunNappi.setEnabled(false);
     }
 
     /**
@@ -206,18 +190,7 @@ public class TapahtumienKuuntelija implements ActionListener {
     public void setToimintoPanel(ToimintoPanel infoPanel) {
         this.toimintoPanel = infoPanel;
     }
-
-    /**
-     * Luo kuuntelijalle uuden Ruudunaktivoijan kun ruudunaktivoijan
-     * parametreissa tarvittava PelilautaPanel on määritelty.
-     *
-     * @param lautaPanel
-     */
-    public void setPelilautaPanel(PelilautaPanel lautaPanel) { // ei testattu
-        this.pelilautaPanel = lautaPanel;
-        this.ruudunaktivoija = new Ruudunaktivoija(pelilautaPanel.getRuudukkoRuutuja(), pelilautaPanel.getRuudukkoNappeja(), seuraavaPainike);
-    }
-
+    
     public void setKirjaimetTextArea(KirjaimetTextArea kirjaimet) {
         this.kirjaimetTextArea = kirjaimet;
     }

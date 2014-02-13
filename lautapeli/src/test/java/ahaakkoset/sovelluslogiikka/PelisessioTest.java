@@ -1,7 +1,6 @@
 package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.domain.Pelaaja;
-import ahaakkoset.sovelluslogiikka.Pelisessio;
 import org.junit.Before;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -9,14 +8,20 @@ import org.junit.Test;
 public class PelisessioTest {
 
     private Pelisessio sessio;
+    private int kirjaimia;
     private Pelaaja masa;
     private Pelaaja matti;
 
+    // TESTIT EI VÄLTTÄMÄTTÄ AJAN TASALLA...
     @Before
     public void setUp() {
-        sessio = new Pelisessio();
+        this.kirjaimia = 8;
+        this.sessio = new Pelisessio();
+        sessio.setPelaajallaKirjaimia(kirjaimia);
+        sessio.setPelinPituus(1);
         sessio.lisaaPelaaja("Masa");
         sessio.lisaaPelaaja("Matti");
+        sessio.luoKirjainVarasto();
         this.masa = sessio.getPelaajat().get(0);
         this.matti = sessio.getPelaajat().get(1);
     }
@@ -100,7 +105,7 @@ public class PelisessioTest {
         sessio.seuraavaPelaaja(); // masa aktiivinen, matillekin lisätty vuoro
         assertTrue(sessio.kaikillaVahintaanYksiVuoro());
     }
-    
+
     @Test
     public void pelaajallaEiKirjaimiaToimii() {
         sessio.seuraavaPelaaja(); // masa aktiivinen
@@ -108,14 +113,14 @@ public class PelisessioTest {
         masa.lisaaKirjain(new Character('A'));
         assertTrue(!sessio.pelaajallaEiKirjaimia());
     }
-    
+
     @Test
     public void arvoPelaajalleKirjaimiaToimiiTyhjaanListaan() {
         sessio.seuraavaPelaaja(); // masa aktiivinen
         sessio.arvoPelaajalleKirjaimia();
         assertEquals(sessio.getKirjaimia(), masa.getOmatKirjaimet().size());
     }
-    
+
     @Test
     public void arvoPelaajalleKirjaimiaToimiiVajaaseenListaan() {
         sessio.seuraavaPelaaja(); // masa aktiivinen
@@ -123,7 +128,7 @@ public class PelisessioTest {
         sessio.arvoPelaajalleKirjaimia();
         assertEquals(sessio.getKirjaimia(), masa.getOmatKirjaimet().size());
     }
-    
+
     @Test
     public void arvoPelaajalleKirjaimiaEiTeeMitaanTayteenListaan() {
         sessio.arvoPelaajienAloitusKirjaimet();

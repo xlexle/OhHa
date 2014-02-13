@@ -1,7 +1,8 @@
 package ahaakkoset.domain;
 
 /**
- * Sana edustaa käyttöliittymän ruudukkoon asetettua kirjainsarjaa.
+ * Sana edustaa käyttöliittymässä luotua merkkijonoa jolle käyttäjä on antanut
+ * merkityksen ja pisteytyksen.
  *
  * @author Ville Lehtinen
  */
@@ -26,7 +27,8 @@ public class Sana {
     }
 
     /**
-     * Metodia käytetään Sanan listaamisessa pelin lopetusruudulle.
+     * Metodia käytetään Sanan listaamisessa pelin luodut sanat sisältävään
+     * tekstikenttään sekä lopetusruudulle.
      *
      * @return
      */

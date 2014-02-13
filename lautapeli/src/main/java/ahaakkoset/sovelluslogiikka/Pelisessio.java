@@ -1,8 +1,6 @@
 package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.domain.Pelaaja;
-import ahaakkoset.domain.Pelilauta;
-import ahaakkoset.domain.Ruutu;
 import ahaakkoset.domain.Sana;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,13 +16,13 @@ import java.util.ArrayList;
  */
 public class Pelisessio {
 
-    private final int kirjaimia = 8;
+    private int pelaajallaKirjaimia;
+    private int pelinPituus;
     private int pelaajanIndeksi = -1;
     private Pelaaja aktiivinenPelaaja;
     private String keskenOlevaSana = "";
-    private Pelilauta pelilauta = new Pelilauta(11);
     private List<Pelaaja> pelaajat = new ArrayList<>();
-    private Kirjainvarasto vapaatKirjaimet = new Kirjainvarasto();
+    private Kirjainvarasto vapaatKirjaimet;
 
     /**
      *
@@ -42,24 +40,30 @@ public class Pelisessio {
      * @param nimi
      * @return metodikutsun onnistuminen
      */
+    
     public boolean lisaaPelaaja(String nimi) {
         if (nimi == null || nimi.length() < 3 || nimi.length() > 16) {
             return false;
         }
 
-        if (pelaajat.contains(new Pelaaja(nimi, kirjaimia))) {
+        if (pelaajat.contains(new Pelaaja(nimi, pelaajallaKirjaimia))) {
             return false;
         }
 
-        pelaajat.add(new Pelaaja(nimi, kirjaimia));
+        pelaajat.add(new Pelaaja(nimi, pelaajallaKirjaimia));
         return true;
+    }
+    
+    public void luoKirjainVarasto() {
+        // luodaan kirjainvarasto varastossaKirjaimia avulla
+        this.vapaatKirjaimet = new Kirjainvarasto(pelinPituus);
     }
 
     /**
      *
      */
     public void arvoPelaajienAloitusKirjaimet() {
-        for (int i = 0; i < kirjaimia; i++) {
+        for (int i = 0; i < pelaajallaKirjaimia; i++) {
             for (int j = 0; j < pelaajat.size(); j++) {
                 pelaajat.get(j).lisaaKirjain(vapaatKirjaimet.arvoKirjain());
             }
@@ -154,11 +158,7 @@ public class Pelisessio {
     }
 
     public int getKirjaimia() {
-        return kirjaimia;
-    }
-
-    public Pelilauta getPelilauta() {
-        return pelilauta;
+        return pelaajallaKirjaimia;
     }
 
     public List<Pelaaja> getPelaajat() {
@@ -175,6 +175,14 @@ public class Pelisessio {
 
     public String getKeskenOlevaSana() {
         return keskenOlevaSana;
+    }
+
+    public void setPelaajallaKirjaimia(int kirjaimia) {
+        this.pelaajallaKirjaimia = kirjaimia;
+    }
+
+    public void setPelinPituus(int pituus) {
+        this.pelinPituus = pituus;
     }
 
     @Override

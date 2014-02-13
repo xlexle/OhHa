@@ -32,7 +32,7 @@ public class Kayttoliittyma implements Runnable {
     @Override
     public void run() { // ei testattu
         frame = new JFrame("Ahaakkoset");
-        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setPreferredSize(new Dimension(640, 480));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         luoKomponentit(frame.getContentPane());
         frame.pack();
@@ -41,9 +41,9 @@ public class Kayttoliittyma implements Runnable {
 
     /**
      * Metodi luo Käyttöliittymän visuaaliset pääkomponentit ja kiinnittää
-     * niihin TapahtumiennKuuntelijan sekä tarvittavat pelin domain-luokat. Sama
-     * TapahtumiennKuuntelija annetaan kaikkien komponenttien käyttöön.
-     * TapahtumiennKuuntelijan käyttöön määritellään tarvittavat
+     * niihin TapahtumiennKuuntelijan sekä tarvittavat pelin domain-luokat. 
+     * Sama TapahtumienKuuntelija annetaan kaikkien komponenttien käyttöön.
+     * TapahtumienKuuntelijan käyttöön määritellään tarvittavat
      * käyttöliittymäkomponentit.
      *
      * @param container
@@ -51,21 +51,20 @@ public class Kayttoliittyma implements Runnable {
     public void luoKomponentit(Container container) { // ei testattu
         container.setLayout(new BorderLayout());
 
-        TapahtumienKuuntelija kuuntelija = new TapahtumienKuuntelija(sessio, frame);
+        TapahtumienKuuntelija tk = new TapahtumienKuuntelija(sessio, frame);
+        TekstiKentanKuuntelija tkk = new TekstiKentanKuuntelija(); // mitä tarttee?
 
-        int pituus = sessio.getPelilauta().getSivunPituus();
-        PelilautaPanel pelilautaPanel = new PelilautaPanel(new GridLayout(pituus, pituus), sessio.getPelilauta(), kuuntelija);
-        ToimintoPanel toimintoPanel = new ToimintoPanel(new GridLayout(11, 1), sessio.getVapaatKirjaimet(), kuuntelija);
-        PelaajaPanel pelaajaPanel = new PelaajaPanel(new GridLayout(), kuuntelija);
-        kuuntelija.setToimintoPanel(toimintoPanel);
-        kuuntelija.setPelilautaPanel(pelilautaPanel);
+        ToimintoPanel toimintoPanel = new ToimintoPanel(new GridLayout(11, 1), sessio.getVapaatKirjaimet(), tk);
+        TekstiPanel tekstiPanel = new TekstiPanel(new BorderLayout(), tkk);
+        PelaajaPanel pelaajaPanel = new PelaajaPanel(new GridLayout(), tk);
+        tk.setToimintoPanel(toimintoPanel);
 
-        container.add(pelilautaPanel, BorderLayout.CENTER);
         container.add(toimintoPanel, BorderLayout.EAST);
+        container.add(tekstiPanel, BorderLayout.CENTER);
         container.add(pelaajaPanel, BorderLayout.SOUTH);
 
         luoAlkuDialogit(frame, pelaajaPanel);
-        alustaPeli(kuuntelija);
+        alustaPeli(tk);
     }
 
     private void luoAlkuDialogit(JFrame frame, PelaajaPanel pelaajaPanel) { // ei testattu

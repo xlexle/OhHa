@@ -8,9 +8,12 @@ public class KirjainvarastoTest {
     
     Kirjainvarasto varasto;
     
+    // TESTIT EI VÄLTTÄMÄTTÄ AJAN TASALLA...
+    
     @Before
     public void setUp() {
-        varasto = new Kirjainvarasto();
+        int kerroin = 1;
+        varasto = new Kirjainvarasto(kerroin);
     }
     
     @Test
