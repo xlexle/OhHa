@@ -14,8 +14,8 @@ public class Ruutu {
     private Character kirjain = null;
     private Ruutu vasen;
     private Ruutu yla;
-    private Ruutu oikea = null;
-    private Ruutu ala = null;
+    private Ruutu oikea;
+    private Ruutu ala;
 
     /**
      * Konstruktori asettaa vasemmaksi ja ylemmäksi Ruuduksi jotkin aiemmin
@@ -69,4 +69,10 @@ public class Ruutu {
     public Character getKirjain() {
         return kirjain;
     }
+    
+    public boolean sisaltaaKirjaimen() {
+        return kirjain != null;
+    }
 }
+
+// tarvitseeko hashCode() ?

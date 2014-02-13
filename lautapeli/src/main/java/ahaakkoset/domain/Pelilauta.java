@@ -94,7 +94,7 @@ public class Pelilauta {
      * @param ruudunSijainti 
      */
     private void maaritaOikeaksiRuuduksi(int ruudunSijainti) {
-        boolean vasemmallaOnRuutu = ruudunSijainti != 1 || (ruudunSijainti - 1) % sivunPituus != 0;
+        boolean vasemmallaOnRuutu = (ruudunSijainti - 1) % sivunPituus != 0;
         if (vasemmallaOnRuutu) {
             ruudut.get(ruudunSijainti - 1).setOikea(ruudut.get(ruudunSijainti));
         }

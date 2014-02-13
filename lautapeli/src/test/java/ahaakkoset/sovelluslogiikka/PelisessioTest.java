@@ -100,29 +100,6 @@ public class PelisessioTest {
         sessio.seuraavaPelaaja(); // masa aktiivinen, matillekin lisätty vuoro
         assertTrue(sessio.kaikillaVahintaanYksiVuoro());
     }
-
-    @Test
-    public void otaPelaajaltaKirjainEiToimiJosEiLoydy() {
-        masa.lisaaKirjain(new Character('B'));
-        AKirjainLoytyy(false);
-    }
-    
-    @Test
-    public void otaPelaajaltaKirjainToimiiJosLoytyy() {
-        masa.lisaaKirjain(new Character('A'));
-        AKirjainLoytyy(false);
-    }
-    
-    private void AKirjainLoytyy(boolean haluttuTulos) {
-        boolean loytyy = true;
-        try {
-            char A = sessio.otaPelaajaltaKirjain('A');
-        } catch (NullPointerException e) {
-            loytyy = false;
-        }
-        
-        assertTrue(loytyy == haluttuTulos);
-    }
     
     @Test
     public void pelaajallaEiKirjaimiaToimii() {

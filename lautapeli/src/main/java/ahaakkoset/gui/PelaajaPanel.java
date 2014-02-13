@@ -38,4 +38,6 @@ public class PelaajaPanel extends JPanel {
         add(pelaaja2);
         kuuntelija.setPelaaja2TextArea(pelaaja2);
     }
+    
+
 }

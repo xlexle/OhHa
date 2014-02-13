@@ -53,7 +53,6 @@ public class ToimintoPanel extends JPanel {
         kuuntelija.setKirjaimetTextArea(kirjaimet);
 
         this.uusiSanaPainike = new JButton("Luo uusi sana");
-        uusiSanaPainike.setEnabled(false);
         uusiSanaPainike.addActionListener(kuuntelija);
         add(uusiSanaPainike);
 

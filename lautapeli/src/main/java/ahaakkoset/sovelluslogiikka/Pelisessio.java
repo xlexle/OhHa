@@ -2,6 +2,7 @@ package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.domain.Pelaaja;
 import ahaakkoset.domain.Pelilauta;
+import ahaakkoset.domain.Ruutu;
 import ahaakkoset.domain.Sana;
 import java.util.List;
 import java.util.ArrayList;
@@ -99,15 +100,6 @@ public class Pelisessio {
 
     /**
      *
-     * @param c
-     * @return
-     */
-    public Character otaPelaajaltaKirjain(Character c) {
-        return aktiivinenPelaaja.otaKirjain(c);
-    }
-
-    /**
-     *
      * @return
      */
     public boolean pelaajallaEiKirjaimia() {
@@ -132,8 +124,9 @@ public class Pelisessio {
      *
      * @param c
      */
-    public void lisaaKirjainSanaan(Character c) {
+    public void lisaaKirjainSanaan(Character c) { // ei testattu
         keskenOlevaSana += c;
+        aktiivinenPelaaja.poistaKirjain(c);
     }
 
     /**
@@ -160,58 +153,30 @@ public class Pelisessio {
         aktiivinenPelaaja.lisaaSana(new Sana(keskenOlevaSana, merkitys, pisteet));
     }
 
-    /**
-     *
-     * @return
-     */
     public int getKirjaimia() {
         return kirjaimia;
     }
 
-    /**
-     *
-     * @return
-     */
     public Pelilauta getPelilauta() {
         return pelilauta;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Pelaaja> getPelaajat() {
         return pelaajat;
     }
 
-    /**
-     *
-     * @return
-     */
     public Pelaaja getAktiivinenPelaaja() {
         return aktiivinenPelaaja;
     }
 
-    /**
-     *
-     * @return
-     */
     public Kirjainvarasto getVapaatKirjaimet() {
         return vapaatKirjaimet;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getKeskenOlevaSana() {
         return keskenOlevaSana;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return "loppuyhteenveto"; //placeholder

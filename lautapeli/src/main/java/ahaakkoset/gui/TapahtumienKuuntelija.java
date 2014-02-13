@@ -4,6 +4,7 @@ import ahaakkoset.domain.Ruutu;
 import ahaakkoset.sovelluslogiikka.Pelisessio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class TapahtumienKuuntelija implements ActionListener {
     private PelaajaTextArea pelaaja2TextArea;
     private Pelisessio sessio;
     private Ruudunaktivoija ruudunaktivoija;
+    private JButton seuraavaPainike;
 
     /**
      * Konstruktori asettaa kuuntelijalle Käyttöliittymän määrittämän
@@ -48,23 +50,22 @@ public class TapahtumienKuuntelija implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent tapahtuma) { // ei testattu
-        if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaPeliPainike()) {
-            suoritaPelinLopetus();
-        }
-
-        if (tapahtuma.getSource() == (JButton) toimintoPanel.getUusiSanaPainike()) {
-            suoritaUudenSananLisays();
-            alustaSeuraavaVuoro();
+        if (pelilautaPanel.getRuudukkoRuutuja().containsKey((JButton) tapahtuma.getSource())) {
+            JButton ruudunNappi = (JButton) tapahtuma.getSource();
+            suoritaKirjaimenLisays(ruudunNappi);
+            
         }
 
         if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaVuoroPainike()) {
             suoritaTyhjanSananLisays();
-            alustaSeuraavaVuoro();
         }
 
-        if (pelilautaPanel.getRuudukkoRuutuja().containsKey((JButton) tapahtuma.getSource())) {
-            JButton ruudunNappi = (JButton) tapahtuma.getSource();
-            suoritaKirjaimenLisays(ruudunNappi);
+        if (tapahtuma.getSource() == (JButton) toimintoPanel.getUusiSanaPainike()) {
+            suoritaUudenSananLisays();
+        }
+
+        if (tapahtuma.getSource() == (JButton) toimintoPanel.getLopetaPeliPainike()) {
+            suoritaPelinLopetus();
         }
     }
 
@@ -90,69 +91,106 @@ public class TapahtumienKuuntelija implements ActionListener {
 //          - arpoo aktiiviselle pelaajalle uudet kirjaimet
         sessio.arvoPelaajalleKirjaimia();
         paivitaTiedot();
+        alustaSeuraavaVuoro();
     }
 
     private void suoritaTyhjanSananLisays() {
         sessio.lisaaSanaPelaajalle("Jätit vuoron väliin", 0);
+        alustaSeuraavaVuoro();
     }
 
     /**
      *
      */
-    public void alustaSeuraavaVuoro() { // ei testattu
-//          - asettaa kaikki ruudut aktiivisiksi
-        ruudunaktivoija.asetaKaikkienRuutujenAktiivisuus(true);
-//          - palauttaa painikkeiden tilan
-        toimintoPanel.getUusiSanaPainike().setEnabled(true);
+    public void alustaSeuraavaVuoro() {
+        ruudunaktivoija.ennenEnsimmaistaKirjainta();
+        toimintoPanel.getUusiSanaPainike().setEnabled(false);
         toimintoPanel.getLopetaVuoroPainike().setEnabled(true);
-//          - vaihtaa aktiivista pelaajaa, samalla lisää edelliselle yhden vuoron
         sessio.seuraavaPelaaja();
+        pelaaja1TextArea.maaritaReunus(sessio.getAktiivinenPelaaja());
+        pelaaja2TextArea.maaritaReunus(sessio.getAktiivinenPelaaja());
     }
 
+    /**
+     *
+     */
     private void suoritaKirjaimenLisays(JButton ruudunNappi) { // ei testattu
-        String kirjain;
+        Ruutu ruutu = pelilautaPanel.haeRuutu(ruudunNappi);
+        String kirjain = "";
 
-        //1. kysy kirjain pelaajalta
-        //  - dialogin otsake on pelaajan nimi
-
-        try {
-            kirjain = (String) JOptionPane.showInputDialog(frame, "X"); //placeholder
-        } catch (NullPointerException e) {
-            return;
+        if (ruutu.getKirjain() != null) {
+            kirjain += ruutu.getKirjain();
+        } else {
+            kirjain = kirjainDialog();
+            if (kirjain == null) {
+                return;
+            }
         }
 
-        toimintoPanel.getLopetaVuoroPainike().setEnabled(false);
+        maaritaAktiiviset(ruudunNappi);
 
-        //  -> ota kirjain pelaajalta
+        Character c = (Character) kirjain.charAt(0);
+        sessio.lisaaKirjainSanaan(c); //lisaa c:n ja poistaa sen pelaajalta
+        tarkistaPainikkeet();
 
-        //2. aktivoi seuraavat ruudut
-        //  -> deaktivoi ensin kaikki, aktivoi sitten oikea&ala tarpeen mukaan
-        ruudunaktivoija.asetaKaikkienRuutujenAktiivisuus(false);
+        ruudunNappi.setText(kirjain);
+        ruutu.setKirjain(c);
+        
+        if (seuraavaPainike == null) {
+            suoritaUudenSananLisays();
+        } else if (!seuraavaPainike.isEnabled()) {
+            suoritaUudenSananLisays();
+        }
+        
+        paivitaTiedot();
+    }
 
+    /**
+     *
+     */
+    private String kirjainDialog() { // ei testattu
+        List<Character> kirjaimet = sessio.getAktiivinenPelaaja().getOmatKirjaimet();
+        String[] vaihtoehdot = new String[kirjaimet.size()];
+        for (int i = 0; i < vaihtoehdot.length; i++) {
+            vaihtoehdot[i] = "" + kirjaimet.get(i);
+        }
+
+        String kirjain = (String) JOptionPane.showInputDialog(
+                frame,
+                "Valitse kirjain",
+                sessio.getAktiivinenPelaaja().getNimi(),
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                vaihtoehdot,
+                "");
+
+        return kirjain;
+    }
+
+    /**
+     *
+     */
+    private void maaritaAktiiviset(JButton ruudunNappi) { // ei testattu
         if (sessio.sanassaEiVielaKirjaimia()) {
             ruudunaktivoija.maaritaEnsimmaisenRuudunJalkeisetAktiiviset(ruudunNappi);
         } else {
             ruudunaktivoija.maaritaSeuraavatAktiiviset(ruudunNappi);
         }
-        //3. lisää kirjain JButtoniin ja Ruutuun (ruutuNappi.setText ja ruutu.setKirjain)
-        //  -> JButton disabloidaan pysyvästi
-        Character c = (Character) kirjain.charAt(0);
-        ruudunNappi.setText(kirjain);
+
         ruudunNappi.setEnabled(false);
-        Ruutu r = pelilautaPanel.haeRuutu(ruudunNappi);
-        r.setKirjain(c);
-        r.eiVoiSetEnabled();
-        //4. lisää kirjain kesken olevaan sanaan
-        sessio.lisaaKirjainSanaan(c);
-        //jos keskenolevassa sanassa vähintään kaksi kirjainta, asettaa toimintoPanel.getUusiSanaPainike().setEnabled(true);
-        if (sessio.getKeskenOlevaSana().length() == 2) {
+    }
+
+    /**
+     *
+     */
+    private void tarkistaPainikkeet() { // ei testattu
+        int pituus = sessio.getKeskenOlevaSana().length();
+        if (pituus == 2) {
             toimintoPanel.getUusiSanaPainike().setEnabled(true);
         }
 
-        paivitaTiedot();
-        //jos kaikki kirjaimet käytetty tai pelilaudan laita saavutettu, suoritaUudenSananLisays();
-        if (sessio.pelaajallaEiKirjaimia()) {
-            suoritaUudenSananLisays();
+        if (pituus == 1) {
+            toimintoPanel.getLopetaVuoroPainike().setEnabled(false);
         }
     }
 
@@ -170,12 +208,14 @@ public class TapahtumienKuuntelija implements ActionListener {
     }
 
     /**
+     * Luo kuuntelijalle uuden Ruudunaktivoijan kun ruudunaktivoijan
+     * parametreissa tarvittava PelilautaPanel on määritelty.
      *
      * @param lautaPanel
      */
-    public void setPelilautaPanel(PelilautaPanel lautaPanel) { // ei testattu;
+    public void setPelilautaPanel(PelilautaPanel lautaPanel) { // ei testattu
         this.pelilautaPanel = lautaPanel;
-        this.ruudunaktivoija = new Ruudunaktivoija(pelilautaPanel.getRuudukkoRuutuja(), pelilautaPanel.getRuudukkoNappeja());
+        this.ruudunaktivoija = new Ruudunaktivoija(pelilautaPanel.getRuudukkoRuutuja(), pelilautaPanel.getRuudukkoNappeja(), seuraavaPainike);
     }
 
     public void setKirjaimetTextArea(KirjaimetTextArea kirjaimet) {
@@ -189,6 +229,8 @@ public class TapahtumienKuuntelija implements ActionListener {
     public void setPelaaja2TextArea(PelaajaTextArea pelaaja2) {
         this.pelaaja2TextArea = pelaaja2;
     }
+
+    
 }
 //        luodaan komponentit; mitä tarvitaan?
 //        - Framen sisäinen pelilauta-Container: private JPanel luoPelilauta() (extends JPanel)

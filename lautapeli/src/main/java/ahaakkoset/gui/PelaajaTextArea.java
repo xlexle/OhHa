@@ -1,6 +1,8 @@
 package ahaakkoset.gui;
 
 import ahaakkoset.domain.Pelaaja;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 
 /**
@@ -29,11 +31,15 @@ public class PelaajaTextArea extends JTextArea {
     public void paivitaKirjaimet() {
         this.setText(pelaaja.toString());
     }
+    
+    public void maaritaReunus(Pelaaja aktiivinen) {
+        if (pelaaja.equals(aktiivinen)) {
+            this.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        } else {
+            this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        }
+    }
 
-    /**
-     *
-     * @return
-     */
     public Pelaaja getPelaaja() {
         return pelaaja;
     }

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Pelaaja edustaa ohjelmaan käyttöliittymän kautta yhteydessä olevaa
- * henkilöä. Kullakin Pelaajalla on ainutlaatuinen nimi. Pelaajalla on
- * käytössään kirjaimia enintään Pelisession määräämä määrä. Pelaaja pitää
- * kirjaa suorittamistaan vuoroista ja luomistaan Sanoista.
+ * Pelaaja edustaa ohjelmaan käyttöliittymän kautta yhteydessä olevaa henkilöä.
+ * Kullakin Pelaajalla on ainutlaatuinen nimi. Pelaajalla on käytössään
+ * kirjaimia enintään Pelisession määräämä määrä. Pelaaja pitää kirjaa
+ * suorittamistaan vuoroista ja luomistaan Sanoista.
  *
  * @author Ville Lehtinen
  */
@@ -77,19 +77,13 @@ public class Pelaaja {
     }
 
     /**
-     * Metodi palauttaa sessiolle Pelaajan omistaman kirjaimen, joka vastaa
-     * parametrina saatua.
+     * Poistaa parametrina saadun kirjaimen pelaajalta.
      *
      * @param kirjain
      * @return kirjain
      */
-    public Character otaKirjain(Character kirjain) { // ei testattu
-        Character palautettava = null;
-        if (omatKirjaimet.contains(kirjain)) {
-            palautettava = kirjain;
-            omatKirjaimet.remove(kirjain);
-        }
-        return palautettava;
+    public void poistaKirjain(Character kirjain) { // ei testattu
+        omatKirjaimet.remove(kirjain);
     }
 
     public String getNimi() {
@@ -136,7 +130,7 @@ public class Pelaaja {
      * @param viimIndeksi
      * @return pisteiden summa
      */
-    public int laskePisteet(int viimIndeksi) { // ei testattu
+    public int laskePisteet(int viimIndeksi) {
         int pisteet = 0;
         for (int i = 0; i < viimIndeksi; i++) {
             pisteet += luodutSanat.get(i).getPisteet();
