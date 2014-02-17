@@ -12,9 +12,8 @@ Pelaajan toiminnot:
 - pelaajan nimen p‰‰tt‰minen (pelaajat 1 ja 2)
 - pelin vaikeustason p‰‰tt‰minen (monta kirjainta pelaajalla maksimissaan)
 - pelin keston p‰‰tt‰minen (kirjainvaraston koko)
-- oman vuoron j‰tt‰minen v‰liin
-- pelin lopettaminen kesken
-	1. mik‰li riitt‰v‰sti vuoroja pelattu: luotujen sanojen listauksen tarkastelu
+- oman vuoron j‰tt‰minen v‰liin (arvotaan uudet kirjaimet)
+- pelin lopettaminen
 - sanan kirjoittaminen
 - sanan merkityksen kirjoittaminen
 - vastustajan juuri luoman sanan arvostelu ennaltam‰‰r‰tyll‰ asteikolla

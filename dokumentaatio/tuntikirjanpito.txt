@@ -21,3 +21,5 @@
 					johon pelissä luotavat sanat kirjoitetaan.
 13.2.2014	2h		Ohjelman luokkarakenne siivottu. Käyttöliittymään uusia luokkia: TekstiKentanKuuntelija, 
 					TekstiPanel. Luokkakaavio päivitetty. Ohjelmakuvaus päivitetty.
+14.2.2014	2h		Käyttöliittymän koodausta
+15.2.2014	3h		Käyttöliittymän koodausta ja pelin tsekkausta demokuntoon

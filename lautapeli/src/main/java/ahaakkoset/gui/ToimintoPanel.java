@@ -1,7 +1,11 @@
 package ahaakkoset.gui;
 
 import ahaakkoset.sovelluslogiikka.Kirjainvarasto;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.LayoutManager;
+import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,7 +21,8 @@ import javax.swing.JPanel;
 public class ToimintoPanel extends JPanel {
 
     private TapahtumienKuuntelija tk;
-    private Kirjainvarasto varasto;
+    private TekstiKentanKuuntelija tkk;
+    private List<Character> kirjainSailio;
     private JButton lopetaPeliPainike;
     private JButton uusiSanaPainike;
     private JButton lopetaVuoroPainike;
@@ -26,19 +31,18 @@ public class ToimintoPanel extends JPanel {
      *
      * @param lm
      * @param varasto
-     * @param tkk
+     * @param tk
      */
-    public ToimintoPanel(LayoutManager lm, Kirjainvarasto varasto, TapahtumienKuuntelija tkk) { // ei testattu
+    public ToimintoPanel(LayoutManager lm, Kirjainvarasto varasto, TapahtumienKuuntelija tk, TekstiKentanKuuntelija tkk) {
         super(lm);
-        this.varasto = varasto;
-        this.tk = tkk;
-        luoKomponentit();
+        this.tk = tk;
+        this.tkk = tkk;
     }
 
-    private void luoKomponentit() { // ei testattu
+    public void luoKomponentit() { // ei testattu
         this.lopetaPeliPainike = new JButton("Lopeta peli");
+        lopetaPeliPainike.setToolTipText("Oletkos ihan varma?");
         lopetaPeliPainike.addActionListener(tk);
-        add(lopetaPeliPainike);
 
         add(new JLabel(""));
         add(new JLabel(""));
@@ -48,40 +52,32 @@ public class ToimintoPanel extends JPanel {
         add(new JLabel(""));
         add(new JLabel(""));
 
-        KirjaimetTextArea kirjaimet = new KirjaimetTextArea(varasto.getKirjainSailio());
-        add(kirjaimet);
-        tk.setKirjaimetTextArea(kirjaimet);
-
-        this.uusiSanaPainike = new JButton("Luo uusi sana");
-        uusiSanaPainike.addActionListener(tk);
-        add(uusiSanaPainike);
-
+        KirjaimetTextArea kirjaimet = new KirjaimetTextArea(kirjainSailio);
+        kirjaimet.setToolTipText("Pelissä vapaana olevien kirjainten lukumäärä.");
+        tkk.setKirjaimetTextArea(kirjaimet);
+        
         this.lopetaVuoroPainike = new JButton("Jätä vuoro väliin");
         lopetaVuoroPainike.addActionListener(tk);
-        add(lopetaVuoroPainike);
+        lopetaVuoroPainike.setToolTipText("Vaihda kirjaimet uusiin.");
+        
+        add(lopetaPeliPainike, BorderLayout.NORTH);
+        add(kirjaimet, BorderLayout.CENTER);
+        add(lopetaVuoroPainike, BorderLayout.SOUTH);
     }
 
-    /**
-     *
-     * @return
-     */
     public JButton getLopetaPeliPainike() {
         return lopetaPeliPainike;
     }
 
-    /**
-     *
-     * @return
-     */
     public JButton getUusiSanaPainike() {
         return uusiSanaPainike;
     }
 
-    /**
-     *
-     * @return
-     */
     public JButton getLopetaVuoroPainike() {
         return lopetaVuoroPainike;
+    }
+
+    public void setKirjainSailio(List<Character> kirjainSailio) {
+        this.kirjainSailio = kirjainSailio;
     }
 }

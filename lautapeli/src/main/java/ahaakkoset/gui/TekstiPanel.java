@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -22,19 +23,30 @@ public class TekstiPanel extends JPanel {
 
     public TekstiPanel(LayoutManager lm, TekstiKentanKuuntelija tkk) {
         super(lm);
-        this.tkk = tkk;
+        this.tkk = tkk;  
         luoKomponentit();
     }
 
-    private void luoKomponentit() { // ei testattu
-        JTextField sananLuontiKentta = new JTextField();
-        sananLuontiKentta.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        sananLuontiKentta.getDocument().addDocumentListener(tkk);
-        
-        JTextArea sanojenListausAlue = new JTextArea();
-        sanojenListausAlue.setEditable(false);
-        sanojenListausAlue.setBackground(Color.LIGHT_GRAY);
-        add(sananLuontiKentta, BorderLayout.NORTH);
-        add(sanojenListausAlue, BorderLayout.CENTER);
+    private void luoKomponentit() {
+        add(sananLuontiKentta(), BorderLayout.NORTH);
+        add(sanojenListausAlue(), BorderLayout.CENTER);
+    }
+    
+    private JTextField sananLuontiKentta() {
+        JTextField field = new JTextField();
+        field.setToolTipText("Paina ENTER lisätäksesi sanan.");
+        field.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        field.addKeyListener(tkk);
+        tkk.setSananLuontiKentta(field);
+        return field;
+    }
+    
+    private JScrollPane sanojenListausAlue() {
+        JTextArea area = new JTextArea();
+        area.setEditable(false);
+        area.setLineWrap(true);
+        JScrollPane scrollPane = new JScrollPane(area); 
+        tkk.setSanojenListausAlue(area);
+        return scrollPane;
     }
 }

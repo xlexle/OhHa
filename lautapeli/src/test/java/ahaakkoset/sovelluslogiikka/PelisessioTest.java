@@ -8,17 +8,15 @@ import org.junit.Test;
 public class PelisessioTest {
 
     private Pelisessio sessio;
-    private int kirjaimia;
     private Pelaaja masa;
     private Pelaaja matti;
 
     // TESTIT EI VÄLTTÄMÄTTÄ AJAN TASALLA...
     @Before
     public void setUp() {
-        this.kirjaimia = 8;
         this.sessio = new Pelisessio();
-        sessio.setPelaajallaKirjaimia(kirjaimia);
-        sessio.setPelinPituus(1);
+        sessio.asetaPelaajallaKirjaimia("Rokataan");
+        sessio.asetaPelinPituus("Normaali");
         sessio.lisaaPelaaja("Masa");
         sessio.lisaaPelaaja("Matti");
         sessio.luoKirjainVarasto();

@@ -48,26 +48,39 @@ public class Kayttoliittyma implements Runnable {
      *
      * @param container
      */
-    public void luoKomponentit(Container container) { // ei testattu
+    public void luoKomponentit(Container container) {
         container.setLayout(new BorderLayout());
 
-        TapahtumienKuuntelija tk = new TapahtumienKuuntelija(sessio, frame);
-        TekstiKentanKuuntelija tkk = new TekstiKentanKuuntelija(); // mitä tarttee?
-
-        ToimintoPanel toimintoPanel = new ToimintoPanel(new GridLayout(11, 1), sessio.getVapaatKirjaimet(), tk);
+        TekstiKentanKuuntelija tkk = new TekstiKentanKuuntelija(sessio, frame);
+        TapahtumienKuuntelija tk = new TapahtumienKuuntelija(sessio, frame, tkk);
+        
+        ToimintoPanel toimintoPanel = new ToimintoPanel(new BorderLayout(), sessio.getVapaatKirjaimet(), tk, tkk);
         TekstiPanel tekstiPanel = new TekstiPanel(new BorderLayout(), tkk);
-        PelaajaPanel pelaajaPanel = new PelaajaPanel(new GridLayout(), tk);
+        PelaajaPanel pelaajaPanel = new PelaajaPanel(new GridLayout(), sessio.getPelaajat(), tk, tkk);
         tk.setToimintoPanel(toimintoPanel);
 
         container.add(toimintoPanel, BorderLayout.EAST);
         container.add(tekstiPanel, BorderLayout.CENTER);
         container.add(pelaajaPanel, BorderLayout.SOUTH);
 
-        luoAlkuDialogit(frame, pelaajaPanel);
-        alustaPeli(tk);
+        luoAlkuDialogit(frame, toimintoPanel, pelaajaPanel);
+        sessio.arvoPelaajienAloitusKirjaimet();
+        tkk.alustaSeuraavaVuoro();
     }
 
-    private void luoAlkuDialogit(JFrame frame, PelaajaPanel pelaajaPanel) { // ei testattu
+    private void luoAlkuDialogit(JFrame frame, ToimintoPanel toimintoPanel, PelaajaPanel pelaajaPanel) { // ei testattu
+        while (true) {            
+            if (sessio.asetaPelinPituus(pelinPituusDialog(frame))) {
+                break;
+            }
+        }
+        
+        while (true) {            
+            if (sessio.asetaPelaajallaKirjaimia(pelaajallaKirjaimiaDialog(frame))) {
+                break;
+            }
+        }
+        
         while (true) {
             if (sessio.lisaaPelaaja(pelaaja1Dialog(frame))) {
                 break;
@@ -80,26 +93,45 @@ public class Kayttoliittyma implements Runnable {
             }
         }
 
-        pelaajaPanel.luoKomponentit(sessio.getPelaajat());
+        pelaajaPanel.luoKomponentit();
+        sessio.luoKirjainVarasto();
+        toimintoPanel.setKirjainSailio(sessio.getVapaatKirjaimet().getKirjainSailio());
+        toimintoPanel.luoKomponentit();
+    }
+    
+    private String pelinPituusDialog(JFrame frame) {
+        String[] vaihtoehdot = new String[2];
+        vaihtoehdot[0] = "Normaali";
+        vaihtoehdot[1] = "Marathon";
+        return (String) JOptionPane.showInputDialog(
+                frame, "Määritä pelin pituus.", "Pituus",
+                JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, "");
+    }
+    
+    private String pelaajallaKirjaimiaDialog(JFrame frame) {
+        String[] vaihtoehdot = new String[4];
+        vaihtoehdot[0] = "Pala kakkua";
+        vaihtoehdot[1] = "Rokataan";
+        vaihtoehdot[2] = "Täältä pesee";
+        vaihtoehdot[3] = "Däämn oon hyvä";
+        return (String) JOptionPane.showInputDialog(
+                frame, "Määritä pelin vaikeustaso."
+                + "\nVaikeustaso määrää pelaajalla kerralla"
+                + "\nolevien kirjainten lukumäärän (6, 7, 8 tai 9)", "Vaikeustaso",
+                JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, "");
     }
 
-    private String pelaaja1Dialog(JFrame frame) { // ei testattu
+    private String pelaaja1Dialog(JFrame frame) {
         return (String) JOptionPane.showInputDialog(
                 frame, "Anna ensimmäisen pelaajan nimi"
                 + "\n(3-16 merkkiä):", "Pelaaja 1",
                 JOptionPane.QUESTION_MESSAGE, null, null, "");
     }
 
-    private String pelaaja2Dialog(JFrame frame) { // ei testattu
+    private String pelaaja2Dialog(JFrame frame) {
         return (String) JOptionPane.showInputDialog(
                 frame, "Anna toisen pelaajan nimi:"
                 + "\n(3-16 merkkiä)", "Pelaaja 2",
                 JOptionPane.QUESTION_MESSAGE, null, null, "");
-    }
-
-    private void alustaPeli(TapahtumienKuuntelija kuuntelija) { // ei testattu
-        sessio.arvoPelaajienAloitusKirjaimet();
-        kuuntelija.paivitaTiedot();
-        kuuntelija.alustaSeuraavaVuoro();
     }
 }

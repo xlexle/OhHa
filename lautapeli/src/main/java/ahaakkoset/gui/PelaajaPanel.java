@@ -14,28 +14,32 @@ import javax.swing.JPanel;
 public class PelaajaPanel extends JPanel {
 
     private TapahtumienKuuntelija tk;
+    private TekstiKentanKuuntelija tkk;
+    private List pelaajat;
 
     /**
      *
      * @param lm
-     * @param tk
+     * @param tkk
      */
-    public PelaajaPanel(LayoutManager lm, TapahtumienKuuntelija tk) { // ei testattu
+    public PelaajaPanel(LayoutManager lm, List pelaajat, TapahtumienKuuntelija tk, TekstiKentanKuuntelija tkk) { // ei testattu
         super(lm);
+        this.pelaajat = pelaajat;
         this.tk = tk;
+        this.tkk = tkk;
     }
 
     /**
      *
      * @param pelaajat
      */
-    public void luoKomponentit(List pelaajat) { // ei testattu
+    public void luoKomponentit() {
         PelaajaTextArea pelaaja1 = new PelaajaTextArea((Pelaaja) pelaajat.get(0));
         add(pelaaja1);
-        tk.setPelaaja1TextArea(pelaaja1);
+        tkk.setPelaaja1TextArea(pelaaja1);
 
         PelaajaTextArea pelaaja2 = new PelaajaTextArea((Pelaaja) pelaajat.get(1));
         add(pelaaja2);
-        tk.setPelaaja2TextArea(pelaaja2);
+        tkk.setPelaaja2TextArea(pelaaja2);
     }
 }

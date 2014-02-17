@@ -4,6 +4,7 @@ import ahaakkoset.domain.Pelaaja;
 import ahaakkoset.domain.Sana;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Pelisessio-luokka toimii välikappaleena käyttöliittymän ja pelin
@@ -18,29 +19,63 @@ public class Pelisessio {
 
     private int pelaajallaKirjaimia;
     private int pelinPituus;
-    private int pelaajanIndeksi = -1;
+    private int indeksi = -1;
     private Pelaaja aktiivinenPelaaja;
-    private String keskenOlevaSana = "";
     private List<Pelaaja> pelaajat = new ArrayList<>();
     private Kirjainvarasto vapaatKirjaimet;
+    private Sana viimeisinLuotu;
 
-    /**
-     *
-     */
     public Pelisessio() {
     }
 
     /**
      * Metodi lisää pelaajat-listaan uuden Pelaajan jonka nimi saadaan
      * parametrina käyttöliittymästä. Pelaajalle asetetaan maksimikirjainmäärä
-     * ennaltamäärätyn oliomuuttujan 'kirjaimia' perusteella. Uutta Pelaajaa ei lisätä
-     * mikäli nimi on väärän pituinen tai sessiosta löytyy jo samanniminen
-     * Pelaaja.
+     * ennaltamäärätyn oliomuuttujan 'kirjaimia' perusteella. Uutta Pelaajaa ei
+     * lisätä mikäli nimi on väärän pituinen tai sessiosta löytyy jo
+     * samanniminen Pelaaja.
      *
      * @param nimi
      * @return metodikutsun onnistuminen
      */
-    
+    public boolean asetaPelinPituus(String pituus) {
+        if (pituus == null) {
+            return false;
+        } else {
+            if (pituus.equals("Normaali")) {
+                this.pelinPituus = 1;
+                return true;
+            } else if (pituus.equals("Marathon")) {
+                this.pelinPituus = 2;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean asetaPelaajallaKirjaimia(String vaikeustaso) {
+        if (vaikeustaso == null) {
+            return false;
+        } else {
+            if (vaikeustaso.equals("Pala kakkua")) {
+                this.pelaajallaKirjaimia = 9;
+                return true;
+            } else if (vaikeustaso.equals("Rokataan")) {
+                this.pelaajallaKirjaimia = 8;
+                return true;
+            } else if (vaikeustaso.equals("Täältä pesee")) {
+                this.pelaajallaKirjaimia = 7;
+                return true;
+            } else if (vaikeustaso.equals("Däämn oon hyvä")) {
+                this.pelaajallaKirjaimia = 6;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean lisaaPelaaja(String nimi) {
         if (nimi == null || nimi.length() < 3 || nimi.length() > 16) {
             return false;
@@ -53,9 +88,8 @@ public class Pelisessio {
         pelaajat.add(new Pelaaja(nimi, pelaajallaKirjaimia));
         return true;
     }
-    
+
     public void luoKirjainVarasto() {
-        // luodaan kirjainvarasto varastossaKirjaimia avulla
         this.vapaatKirjaimet = new Kirjainvarasto(pelinPituus);
     }
 
@@ -74,18 +108,17 @@ public class Pelisessio {
      *
      */
     public void seuraavaPelaaja() {
-        if (pelaajanIndeksi == -1 || pelaajanIndeksi == pelaajat.size() - 1) {
-            pelaajanIndeksi = 0;
+        if (indeksi == -1 || indeksi == pelaajat.size() - 1) {
+            indeksi = 0;
         } else {
-            pelaajanIndeksi++;
+            indeksi++;
         }
 
         if (aktiivinenPelaaja != null) {
             aktiivinenPelaaja.lisaaVuoro();
         }
 
-        tyhjennaKeskenOlevaSana();
-        aktiivinenPelaaja = pelaajat.get(pelaajanIndeksi);
+        aktiivinenPelaaja = pelaajat.get(indeksi);
     }
 
     /**
@@ -119,33 +152,44 @@ public class Pelisessio {
      */
     public void arvoPelaajalleKirjaimia() {
         int montako = aktiivinenPelaaja.getEnintaanKirjaimia() - aktiivinenPelaaja.getOmatKirjaimet().size();
+        if (montako > vapaatKirjaimet.getKirjainSailio().size()) {
+            montako = vapaatKirjaimet.getKirjainSailio().size();
+        }
+        
         for (int i = 0; i < montako; i++) {
             aktiivinenPelaaja.lisaaKirjain(vapaatKirjaimet.arvoKirjain());
         }
     }
-
-    /**
-     *
-     * @param c
-     */
-    public void lisaaKirjainSanaan(Character c) { // ei testattu
-        keskenOlevaSana += c;
-        aktiivinenPelaaja.poistaKirjain(c);
+    
+    public void vaihdaPelaajanKirjaimet() {
+        List<Character> uudet = new ArrayList<>();
+        Iterator<Character> iteraattori = vapaatKirjaimet.getKirjainSailio().iterator();
+        
+        while (iteraattori.hasNext() && uudet.size() < pelaajallaKirjaimia) {            
+            uudet.add(vapaatKirjaimet.arvoKirjain());
+        }
+        
+        for (Character c : aktiivinenPelaaja.getOmatKirjaimet()) {
+            vapaatKirjaimet.getKirjainSailio().add(c);
+        }
+        
+        aktiivinenPelaaja.setOmatKirjaimet(uudet);        
+        arvoPelaajalleKirjaimia();
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean sanassaEiVielaKirjaimia() {
-        return keskenOlevaSana.isEmpty();
-    }
+    public boolean tarkistaKirjaimet(String sana) {
+        List<Character> kirjaimet = new ArrayList<>(aktiivinenPelaaja.getOmatKirjaimet());
 
-    /**
-     *
-     */
-    public void tyhjennaKeskenOlevaSana() {
-        keskenOlevaSana = "";
+        for (int i = 0; i < sana.length(); i++) {
+            Character kirjain = sana.charAt(i);
+            if (kirjaimet.contains(kirjain)) {
+                kirjaimet.remove(kirjain);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -153,8 +197,20 @@ public class Pelisessio {
      * @param merkitys
      * @param pisteet
      */
-    public void lisaaSanaPelaajalle(String merkitys, int pisteet) {
-        aktiivinenPelaaja.lisaaSana(new Sana(keskenOlevaSana, merkitys, pisteet));
+    public void lisaaSanaPelaajalle(String sana, String merkitys, int pisteet) {
+        Sana uusiSana = new Sana(sana, merkitys, pisteet);
+        aktiivinenPelaaja.lisaaSana(uusiSana);
+        this.viimeisinLuotu = uusiSana;
+
+        if (!sana.isEmpty()) {
+            for (int i = 0; i < sana.length(); i++) {
+                aktiivinenPelaaja.poistaKirjain(sana.charAt(i));
+            }
+        }
+    }
+    
+    public void lisaaTyhjaSanaPelaajalle() {
+        lisaaSanaPelaajalle("", "", 0);
     }
 
     public int getKirjaimia() {
@@ -173,23 +229,34 @@ public class Pelisessio {
         return vapaatKirjaimet;
     }
 
-    public String getKeskenOlevaSana() {
-        return keskenOlevaSana;
-    }
-
-    public void setPelaajallaKirjaimia(int kirjaimia) {
-        this.pelaajallaKirjaimia = kirjaimia;
-    }
-
-    public void setPelinPituus(int pituus) {
-        this.pelinPituus = pituus;
+    public String uusiSanaLuotu() {
+        return "Vuoro " + aktiivinenPelaaja.getVuorot()
+                + " - " + aktiivinenPelaaja.getNimi()
+                + " keksi sanan " + viimeisinLuotu.toString() + "\n\n";
     }
 
     @Override
     public String toString() {
-        return "loppuyhteenveto"; //placeholder
-        // i = suoritettujen vuorojen määrä pelaajalla jolla vähemmän vuoroja
-        // hakee sanat indeksillä 0->i ja kysyy pelaajalta pisteet i:hin asti
-        // listaa pelaajan sanat i:hin asti (Sana.toString)
+        String loppu = "";
+        int vuoroonSaakka = vahitenVuoroja();
+        for (int i = 0; i < pelaajat.size(); i++) {
+            int pisteet = pelaajat.get(i).laskePisteet(vuoroonSaakka);
+            loppu += pelaajat.get(i).getNimi() + ": "
+                    + pisteet + " pistettä\n\n";
+        }
+
+        return loppu;
+    }
+
+    private int vahitenVuoroja() {
+        int vahitenVuoroja = pelaajat.get(0).getVuorot();
+        for (int i = 1; i < pelaajat.size(); i++) {
+            int vuoroja = pelaajat.get(i).getVuorot();
+            if (vuoroja < vahitenVuoroja) {
+                vahitenVuoroja = vuoroja;
+            }
+        }
+
+        return vahitenVuoroja;
     }
 }

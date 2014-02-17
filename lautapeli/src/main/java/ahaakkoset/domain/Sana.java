@@ -34,9 +34,7 @@ public class Sana {
      */
     @Override
     public String toString() {
-        return sisalto + " - " + pisteet + " pistettä\n"
-                + "= " + merkitys + "\n"
-                + "-----";
+        return sisalto + "\nMerkitys: " + merkitys + "\nPisteet: " + pisteet;
     }
 
     public int getPisteet() {

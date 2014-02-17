@@ -132,8 +132,10 @@ public class Pelaaja {
      */
     public int laskePisteet(int viimIndeksi) {
         int pisteet = 0;
-        for (int i = 0; i < viimIndeksi; i++) {
-            pisteet += luodutSanat.get(i).getPisteet();
+        if (!luodutSanat.isEmpty()) {
+            for (int i = 0; i < viimIndeksi; i++) {
+                pisteet += luodutSanat.get(i).getPisteet();
+            }
         }
 
         return pisteet;
@@ -145,6 +147,10 @@ public class Pelaaja {
 
     public List<Character> getOmatKirjaimet() {
         return omatKirjaimet;
+    }
+
+    public void setOmatKirjaimet(List<Character> uudet) {
+        this.omatKirjaimet = uudet;
     }
 
     public int getEnintaanKirjaimia() {

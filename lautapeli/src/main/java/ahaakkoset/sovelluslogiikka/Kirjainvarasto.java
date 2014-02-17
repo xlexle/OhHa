@@ -72,7 +72,7 @@ public class Kirjainvarasto {
      *
      * @return arvottu kirjain
      */
-    public Character arvoKirjain() {
+    public Character arvoKirjain() {        
         int arvottuIndeksi = arpoja.nextInt(kirjainSailio.size());
         Character kirjain = kirjainSailio.get(arvottuIndeksi);
         kirjainSailio.remove(kirjain);
