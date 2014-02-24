@@ -1,6 +1,7 @@
 package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.domain.Pelaaja;
+import java.util.List;
 import org.junit.Before;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -22,6 +23,42 @@ public class PelisessioTest {
         sessio.luoKirjainVarasto();
         this.masa = sessio.getPelaajat().get(0);
         this.matti = sessio.getPelaajat().get(1);
+    }
+
+    @Test
+    public void asettaaPelinPituudenOikein() {
+        assertTrue(sessio.asetaPelinPituus("Normaali"));
+        assertEquals(1, sessio.getPelinPituus());
+        assertTrue(sessio.asetaPelinPituus("Marathon"));
+        assertEquals(2, sessio.getPelinPituus());
+    }
+
+    @Test
+    public void eiAsetaPelillePituuttaJosNullTaiMuu() {
+        Pelisessio sessio2 = new Pelisessio();
+        assertTrue(!sessio2.asetaPelinPituus(null));
+        assertTrue(!sessio2.asetaPelinPituus("asdfg"));
+        assertEquals(0, sessio2.getPelinPituus());
+    }
+
+    @Test
+    public void asetaPelaajallaKirjaimiaToimii() {
+        assertTrue(sessio.asetaPelaajallaKirjaimia("Pala kakkua"));
+        assertEquals(9, sessio.getPelaajallaKirjaimia());
+        assertTrue(sessio.asetaPelaajallaKirjaimia("Rokataan"));
+        assertEquals(8, sessio.getPelaajallaKirjaimia());
+        assertTrue(sessio.asetaPelaajallaKirjaimia("Täältä pesee"));
+        assertEquals(7, sessio.getPelaajallaKirjaimia());
+        assertTrue(sessio.asetaPelaajallaKirjaimia("Däämn oon hyvä"));
+        assertEquals(6, sessio.getPelaajallaKirjaimia());
+    }
+
+    @Test
+    public void eiAsetaPelaajallaKirjaimiaJosNullTaiMuu() {
+        Pelisessio sessio2 = new Pelisessio();
+        assertTrue(!sessio2.asetaPelaajallaKirjaimia(null));
+        assertTrue(!sessio2.asetaPelaajallaKirjaimia("asdfg"));
+        assertEquals(0, sessio2.getPelaajallaKirjaimia());
     }
 
     @Test
@@ -57,8 +94,8 @@ public class PelisessioTest {
     @Test
     public void arvoAloitusKirjaimetArpooOikeanMaaranMolemmille() {
         sessio.arvoPelaajienAloitusKirjaimet();
-        assertEquals(sessio.getKirjaimia(), masa.getOmatKirjaimet().size());
-        assertEquals(sessio.getKirjaimia(), matti.getOmatKirjaimet().size());
+        assertEquals(sessio.getPelaajallaKirjaimia(), masa.getOmatKirjaimet().size());
+        assertEquals(sessio.getPelaajallaKirjaimia(), matti.getOmatKirjaimet().size());
     }
 
     @Test
@@ -116,7 +153,7 @@ public class PelisessioTest {
     public void arvoPelaajalleKirjaimiaToimiiTyhjaanListaan() {
         sessio.seuraavaPelaaja(); // masa aktiivinen
         sessio.arvoPelaajalleKirjaimia();
-        assertEquals(sessio.getKirjaimia(), masa.getOmatKirjaimet().size());
+        assertEquals(sessio.getPelaajallaKirjaimia(), masa.getOmatKirjaimet().size());
     }
 
     @Test
@@ -124,7 +161,7 @@ public class PelisessioTest {
         sessio.seuraavaPelaaja(); // masa aktiivinen
         masa.lisaaKirjain('A');
         sessio.arvoPelaajalleKirjaimia();
-        assertEquals(sessio.getKirjaimia(), masa.getOmatKirjaimet().size());
+        assertEquals(sessio.getPelaajallaKirjaimia(), masa.getOmatKirjaimet().size());
     }
 
     @Test
@@ -135,5 +172,64 @@ public class PelisessioTest {
         sessio.arvoPelaajalleKirjaimia();
         String kirjaimetAfter = masa.getOmatKirjaimet().toString();
         assertEquals(kirjaimetAfter, kirjaimet);
+    }
+    
+    @Test
+    public void vaihdaPelaajanKirjaimetSailyttaaPelaajanAlkuperaisenKirjainmaaran() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        sessio.arvoPelaajalleKirjaimia();
+        
+        int maara = masa.getOmatKirjaimet().size();
+        sessio.vaihdaPelaajanKirjaimet();
+        assertEquals(maara, masa.getOmatKirjaimet().size());
+    }
+    
+    @Test
+    public void vaihdaPelaajanKirjaimetVaihtaaKaikkiJosVarastossaRiittaa() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        for (int i = 0; i < masa.getEnintaanKirjaimia(); i++) {
+            masa.lisaaKirjain('X'); // ei löydy varastosta
+        }
+        
+        sessio.vaihdaPelaajanKirjaimet();
+        
+        for (Character c : masa.getOmatKirjaimet()) {
+            assertTrue(!c.equals('X'));
+        }
+    }
+    
+    @Test
+    public void vaihdaPelaajanKirjaimetEiTeeMitaanJosVarastoTyhja() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        sessio.arvoPelaajalleKirjaimia();
+        
+        String poisarvotut = "";
+        while (sessio.getVapaatKirjaimet().getKirjainSailio().size() > 0) {            
+            poisarvotut += sessio.getVapaatKirjaimet().arvoKirjain();
+        }
+        
+        List kirjaimetNyt = masa.getOmatKirjaimet();
+        sessio.vaihdaPelaajanKirjaimet();
+        assertEquals(kirjaimetNyt, masa.getOmatKirjaimet());
+    }
+    
+    @Test
+    public void tarkistaKirjaimetPalauttaaFalseJosYksikinKirjainPuuttuuPelaajaalta() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        for (int i = 0; i < masa.getEnintaanKirjaimia(); i++) {
+            masa.lisaaKirjain('X');
+        }
+        
+        assertTrue(!sessio.tarkistaKirjaimet("XXXXY"));
+    }
+    
+    @Test
+    public void tarkistaKirjaimetPalauttaaTrueJosKaikkiLoytyy() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        for (int i = 0; i < masa.getEnintaanKirjaimia(); i++) {
+            masa.lisaaKirjain('X');
+        }
+        
+        assertTrue(sessio.tarkistaKirjaimet("XXXXX"));
     }
 }

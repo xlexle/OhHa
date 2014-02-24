@@ -90,7 +90,7 @@ public class TekstiKentanKuuntelija implements KeyListener {
     }
 
     private String sananPisteetDialog(JFrame frame) {
-        String[] vaihtoehdot = new String[5];
+        String[] vaihtoehdot = new String[6];
         vaihtoehdot[0] = "0";
         vaihtoehdot[1] = "1";
         vaihtoehdot[2] = "2";

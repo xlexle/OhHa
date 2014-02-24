@@ -58,18 +58,19 @@ public class Pelisessio {
         if (vaikeustaso == null) {
             return false;
         } else {
-            if (vaikeustaso.equals("Pala kakkua")) {
-                this.pelaajallaKirjaimia = 9;
-                return true;
-            } else if (vaikeustaso.equals("Rokataan")) {
-                this.pelaajallaKirjaimia = 8;
-                return true;
-            } else if (vaikeustaso.equals("Täältä pesee")) {
-                this.pelaajallaKirjaimia = 7;
-                return true;
-            } else if (vaikeustaso.equals("Däämn oon hyvä")) {
-                this.pelaajallaKirjaimia = 6;
-                return true;
+            switch (vaikeustaso) {
+                case "Pala kakkua":
+                    this.pelaajallaKirjaimia = 9;
+                    return true;
+                case "Rokataan":
+                    this.pelaajallaKirjaimia = 8;
+                    return true;
+                case "Täältä pesee":
+                    this.pelaajallaKirjaimia = 7;
+                    return true;
+                case "Däämn oon hyvä":
+                    this.pelaajallaKirjaimia = 6;
+                    return true;
             }
         }
 
@@ -162,6 +163,10 @@ public class Pelisessio {
     }
     
     public void vaihdaPelaajanKirjaimet() {
+        if (vapaatKirjaimet.getKirjainSailio().isEmpty()) {
+            return;
+        }
+        
         List<Character> uudet = new ArrayList<>();
         Iterator<Character> iteraattori = vapaatKirjaimet.getKirjainSailio().iterator();
         
@@ -213,7 +218,7 @@ public class Pelisessio {
         lisaaSanaPelaajalle("", "", 0);
     }
 
-    public int getKirjaimia() {
+    public int getPelaajallaKirjaimia() {
         return pelaajallaKirjaimia;
     }
 
@@ -227,6 +232,10 @@ public class Pelisessio {
 
     public Kirjainvarasto getVapaatKirjaimet() {
         return vapaatKirjaimet;
+    }
+
+    public int getPelinPituus() {
+        return pelinPituus;
     }
 
     public String uusiSanaLuotu() {

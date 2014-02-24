@@ -15,6 +15,6 @@ public class SanaTest {
     
     @Test
     public void konstruktoriAsettaaArvotOikein() {
-        assertEquals("Sana - Merkitys on merkittävä - 5 pistettä", sana.toString());
+        assertEquals("Sana\nMerkitys: Merkitys on merkittävä\nPisteet: 5", sana.toString());
     }
 }
