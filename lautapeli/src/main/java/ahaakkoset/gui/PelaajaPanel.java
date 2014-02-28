@@ -18,9 +18,13 @@ public class PelaajaPanel extends JPanel {
     private List pelaajat;
 
     /**
+     * Konstruktori asettaa PelaajaPanelin käyttöön kuuntelijat, pelaajalistan
+     * ja määrittää käytettävän LayoutManagerin.
      *
      * @param lm
-     * @param tkk
+     * @param pelaajat
+     * @param tk
+     * @param tkk 
      */
     public PelaajaPanel(LayoutManager lm, List pelaajat, TapahtumienKuuntelija tk, TekstiKentanKuuntelija tkk) { // ei testattu
         super(lm);
@@ -30,8 +34,7 @@ public class PelaajaPanel extends JPanel {
     }
 
     /**
-     *
-     * @param pelaajat
+     * Metodi luo PelaajaTextArean kummallekin pelaajalle.
      */
     public void luoKomponentit() {
         PelaajaTextArea pelaaja1 = new PelaajaTextArea((Pelaaja) pelaajat.get(0));

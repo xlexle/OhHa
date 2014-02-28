@@ -23,3 +23,6 @@
 					TekstiPanel. Luokkakaavio päivitetty. Ohjelmakuvaus päivitetty.
 14.2.2014	2h		Käyttöliittymän koodausta
 15.2.2014	3h		Käyttöliittymän koodausta ja pelin tsekkausta demokuntoon
+24.2.2014	2h		Bugikorjaus, testejä
+27.2.2014	2h		Loputkin testit tehty, Sanalle equals-metodi, Javadoc
+28.2.2014	1h		Viimeistelyä

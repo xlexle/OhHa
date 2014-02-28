@@ -13,10 +13,20 @@ import java.util.Random;
  */
 public class Kirjainvarasto {
 
-    private List<Character> kirjainSailio; // 64 kirjainta
+    /*
+     * Sisältää Kirjainvarastossa olevat kirjaimet.
+     */
+    private List<Character> kirjainSailio;
+    /*
+     * Satunnaislukugeneraattori jota hyödynnetään kirjainten satunnaisessa 
+     * valitsemisessa kirjainSailiosta.
+     */
     private Random arpoja = new Random();
 
     /**
+     * Konstruktori pohjustaa kirjainvaraston kutsumalla metodia
+     * luoKirjainSailio, parametrina kokonaislukukerroin joka määrittää 
+     * kirjainSailion lopullisen koon.
      *
      */
     public Kirjainvarasto(int kerroin) {
@@ -79,11 +89,6 @@ public class Kirjainvarasto {
         return kirjain;
     }
 
-    /**
-     * Metodi on testejä varten.
-     *
-     * @return
-     */
     public List<Character> getKirjainSailio() {
         return kirjainSailio;
     }

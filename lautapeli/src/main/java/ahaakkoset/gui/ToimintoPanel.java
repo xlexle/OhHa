@@ -1,13 +1,9 @@
 package ahaakkoset.gui;
 
-import ahaakkoset.sovelluslogiikka.Kirjainvarasto;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.LayoutManager;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -28,38 +24,37 @@ public class ToimintoPanel extends JPanel {
     private JButton lopetaVuoroPainike;
 
     /**
+     * Konstruktori määrittää käytettävän LayoutManagerin ja asettaa
+     * oliomuuttujien arvot.
      *
      * @param lm
-     * @param varasto
      * @param tk
+     * @param tkk
      */
-    public ToimintoPanel(LayoutManager lm, Kirjainvarasto varasto, TapahtumienKuuntelija tk, TekstiKentanKuuntelija tkk) {
+    public ToimintoPanel(LayoutManager lm, TapahtumienKuuntelija tk, TekstiKentanKuuntelija tkk) {
         super(lm);
         this.tk = tk;
         this.tkk = tkk;
     }
 
+    /*
+     * Metodi asettaa ToimintoPanelille komponentit: päivittyvä 
+     * tekstikenttä sekä painikkeet pelin lopettamiselle ja vuoron 
+     * väliin jättämiselle.
+     */
     public void luoKomponentit() { // ei testattu
         this.lopetaPeliPainike = new JButton("Lopeta peli");
         lopetaPeliPainike.setToolTipText("Oletkos ihan varma?");
         lopetaPeliPainike.addActionListener(tk);
 
-        add(new JLabel(""));
-        add(new JLabel(""));
-        add(new JLabel(""));
-        add(new JLabel(""));
-        add(new JLabel(""));
-        add(new JLabel(""));
-        add(new JLabel(""));
-
         KirjaimetTextArea kirjaimet = new KirjaimetTextArea(kirjainSailio);
         kirjaimet.setToolTipText("Pelissä vapaana olevien kirjainten lukumäärä.");
         tkk.setKirjaimetTextArea(kirjaimet);
-        
+
         this.lopetaVuoroPainike = new JButton("Jätä vuoro väliin");
         lopetaVuoroPainike.addActionListener(tk);
         lopetaVuoroPainike.setToolTipText("Vaihda kirjaimet uusiin.");
-        
+
         add(lopetaPeliPainike, BorderLayout.NORTH);
         add(kirjaimet, BorderLayout.CENTER);
         add(lopetaVuoroPainike, BorderLayout.SOUTH);

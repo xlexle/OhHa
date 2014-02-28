@@ -41,8 +41,8 @@ public class Kayttoliittyma implements Runnable {
 
     /**
      * Metodi luo Käyttöliittymän visuaaliset pääkomponentit ja kiinnittää
-     * niihin TapahtumiennKuuntelijan sekä tarvittavat pelin domain-luokat. 
-     * Sama TapahtumienKuuntelija annetaan kaikkien komponenttien käyttöön.
+     * niihin TapahtumiennKuuntelijan sekä tarvittavat pelin domain-luokat. Sama
+     * TapahtumienKuuntelija annetaan kaikkien komponenttien käyttöön.
      * TapahtumienKuuntelijan käyttöön määritellään tarvittavat
      * käyttöliittymäkomponentit.
      *
@@ -53,8 +53,8 @@ public class Kayttoliittyma implements Runnable {
 
         TekstiKentanKuuntelija tkk = new TekstiKentanKuuntelija(sessio, frame);
         TapahtumienKuuntelija tk = new TapahtumienKuuntelija(sessio, frame, tkk);
-        
-        ToimintoPanel toimintoPanel = new ToimintoPanel(new BorderLayout(), sessio.getVapaatKirjaimet(), tk, tkk);
+
+        ToimintoPanel toimintoPanel = new ToimintoPanel(new BorderLayout(), tk, tkk);
         TekstiPanel tekstiPanel = new TekstiPanel(new BorderLayout(), tkk);
         PelaajaPanel pelaajaPanel = new PelaajaPanel(new GridLayout(), sessio.getPelaajat(), tk, tkk);
         tk.setToimintoPanel(toimintoPanel);
@@ -63,43 +63,85 @@ public class Kayttoliittyma implements Runnable {
         container.add(tekstiPanel, BorderLayout.CENTER);
         container.add(pelaajaPanel, BorderLayout.SOUTH);
 
-        luoAlkuDialogit(frame, toimintoPanel, pelaajaPanel);
+        luoAlkuDialogit(toimintoPanel, pelaajaPanel);
         sessio.arvoPelaajienAloitusKirjaimet();
         tkk.alustaSeuraavaVuoro();
     }
 
-    private void luoAlkuDialogit(JFrame frame, ToimintoPanel toimintoPanel, PelaajaPanel pelaajaPanel) { // ei testattu
-        while (true) {            
-            if (sessio.asetaPelinPituus(pelinPituusDialog(frame))) {
-                break;
-            }
-        }
-        
-        while (true) {            
-            if (sessio.asetaPelaajallaKirjaimia(pelaajallaKirjaimiaDialog(frame))) {
-                break;
-            }
-        }
-        
-        while (true) {
-            if (sessio.lisaaPelaaja(pelaaja1Dialog(frame))) {
-                break;
-            }
-        }
-
-        while (true) {
-            if (sessio.lisaaPelaaja(pelaaja2Dialog(frame))) {
-                break;
-            }
-        }
+    /**
+     * Metodi kutsuu metodeita, jotka kutsuvat metodeita, jotka luovat peliä
+     * käynnistettäessä näytettävät ponnahdusikkunat, ja lopuksi alustaa
+     * käyttöliittymän pelin aloitusta varten.
+     *
+     * @param toimintoPanel
+     * @param pelaajaPanel
+     */
+    private void luoAlkuDialogit(ToimintoPanel toimintoPanel, PelaajaPanel pelaajaPanel) {
+        kysyPelinPituutta();
+        kysyPelinVaikeustasoa();
+        kysyEnsimmaisenPelaajanNimea();
+        kysyToisenPelaajanNimea();
 
         pelaajaPanel.luoKomponentit();
         sessio.luoKirjainVarasto();
         toimintoPanel.setKirjainSailio(sessio.getVapaatKirjaimet().getKirjainSailio());
         toimintoPanel.luoKomponentit();
     }
+
+    /**
+     * Mikäli käyttäjältä ei saada ponnahdusikkunassa oikeaa syötettä, kutsutaan
+     * ponnahdusikkunaa uudelleen.
+     */
+    private void kysyPelinPituutta() {
+        while (true) {
+            if (sessio.asetaPelinPituus(pelinPituusDialog())) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Mikäli käyttäjältä ei saada ponnahdusikkunassa oikeaa syötettä, kutsutaan
+     * ponnahdusikkunaa uudelleen.
+     */
+    private void kysyPelinVaikeustasoa() {
+        while (true) {
+            if (sessio.asetaPelaajallaKirjaimia(pelaajallaKirjaimiaDialog())) {
+                break;
+            }
+        }
+    }
     
-    private String pelinPituusDialog(JFrame frame) {
+    /**
+     * Mikäli käyttäjältä ei saada ponnahdusikkunassa oikeaa syötettä, kutsutaan
+     * ponnahdusikkunaa uudelleen.
+     */
+    private void kysyEnsimmaisenPelaajanNimea() {
+        while (true) {
+            if (sessio.lisaaPelaaja(pelaaja1Dialog(frame))) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Mikäli käyttäjältä ei saada ponnahdusikkunassa oikeaa syötettä, kutsutaan
+     * ponnahdusikkunaa uudelleen.
+     */
+    private void kysyToisenPelaajanNimea() {
+        while (true) {
+            if (sessio.lisaaPelaaja(pelaaja2Dialog(frame))) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Metodi luo ponnahdusikkunan jossa kysytään pelin pituus.
+     *
+     * @return ponnahdusikkunan arvo merkkijonoesityksenä
+     */
+    private String pelinPituusDialog() {
         String[] vaihtoehdot = new String[2];
         vaihtoehdot[0] = "Normaali";
         vaihtoehdot[1] = "Marathon";
@@ -107,8 +149,13 @@ public class Kayttoliittyma implements Runnable {
                 frame, "Määritä pelin pituus.", "Pituus",
                 JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, "");
     }
-    
-    private String pelaajallaKirjaimiaDialog(JFrame frame) {
+
+    /**
+     * Metodi luo ponnahdusikkunan jossa kysytään pelin vaikeustaso.
+     *
+     * @return ponnahdusikkunan arvo merkkijonoesityksenä
+     */
+    private String pelaajallaKirjaimiaDialog() {
         String[] vaihtoehdot = new String[4];
         vaihtoehdot[0] = "Pala kakkua";
         vaihtoehdot[1] = "Rokataan";
@@ -121,6 +168,12 @@ public class Kayttoliittyma implements Runnable {
                 JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, "");
     }
 
+    /**
+     * Metodi luo ponnahdusikkunan jossa kysytään ensimmäisen pelaajan nimi.
+     *
+     * @param frame
+     * @return ponnahdusikkunan arvo merkkijonoesityksenä
+     */
     private String pelaaja1Dialog(JFrame frame) {
         return (String) JOptionPane.showInputDialog(
                 frame, "Anna ensimmäisen pelaajan nimi"
@@ -128,6 +181,12 @@ public class Kayttoliittyma implements Runnable {
                 JOptionPane.QUESTION_MESSAGE, null, null, "");
     }
 
+    /**
+     * Metodi luo ponnahdusikkunan jossa kysytään toisen pelaajan nimi.
+     *
+     * @param frame
+     * @return ponnahdusikkunan arvo merkkijonoesityksenä
+     */
     private String pelaaja2Dialog(JFrame frame) {
         return (String) JOptionPane.showInputDialog(
                 frame, "Anna toisen pelaajan nimi:"

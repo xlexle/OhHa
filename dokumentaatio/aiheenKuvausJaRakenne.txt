@@ -1,4 +1,6 @@
-Aihe: Ahaakkoset
+//////////////////////
+// Aihe: Ahaakkoset //
+//////////////////////
 
 Yksinkertainen versio pelistä, joka pohjautuu Alfapet-lautapeliin. Tässä pelissä ei ole kuitenkaan pelilautaa käytössä, vaan peliin luodaan sanat tekstikenttään. Pelissä on rajallinen määrä kirjaimia varastossa, ja pelaajien käyttöön arvotaan pelin edetessä kirjaimia tästä varastosta. Kullakin pelaajalla on enintään 6-10 kirjainta käytössä, riippuen pelaajan valinnasta.
 
@@ -17,3 +19,15 @@ Pelaajan toiminnot:
 - sanan kirjoittaminen
 - sanan merkityksen kirjoittaminen
 - vastustajan juuri luoman sanan arvostelu ennaltamäärätyllä asteikolla
+
+///////////////////
+// Rakennekuvaus //
+///////////////////
+
+Pelisessio luo Kirjainvaraston ja kaksi Pelaajaa. Kirjainvarasto sisältää 0-64 Kirjainta (64 alussa, 0 jos ja kun kaikki annettu Pelaajille) kerrottuna kokonaislukukertoimella jolla määritetään pelin maksimikesto. 
+
+Kirjaimet siis vaihtavat omistajaa Kirjainvarastolta Pelaajille ja Pelaajilta Sanoille pelin edetessä. Pelaajilla on käytössään kerralla kokonaisluvun pelaajallaKirjaimia määrittämä määrä, paitsi kun Kirjainvarasto tyhjenee jolloinka Pelaaja ei voi enää täydentää omistamiaan kirjaimia.
+
+Sana koostuu vähintään kahdesta ja enintään niin moensta Kirjaimesta kuin pelaajalla maksimissaan voi niitä olla. Pelaaja voi luoda periaatteessa rajattoman määrän Sanoja pelin edetessä, vaikkakin käytännössä Kirjainvaraston koko toimii rajoitteena.
+
+Kaaviossa on selkeyden vuoksi ilmaistu Kirjain omana luokkanaan, vaikka varsinaisessa implementaatiossa kirjainet ovat Javan valmiin Character-luokan edustajia.

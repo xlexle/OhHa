@@ -1,0 +1,9 @@
+Peli on kaksinpeli jonka ideana on luoda vuorotellen sanoja saatavilla olevista kirjaimista.
+
+Sana luodaan tekstikentt‰‰n painamalla ENTER. Sanassa on oltava v‰hint‰‰n kaksi kirjainta ja se voi koostua pelk‰st‰‰n pelaajan omistamista kirjaimista, jotka n‰kyv‰t ikkunan alaosassa.
+
+Sanalle annetaan merkitys, ja vastapelaaja pisteytt‰‰ sanan sen perusteella,  miten suomenkieliselt‰ sana kuulostaa ja miten j‰rkev‰ tai hauska sanan merkitys on. Luovuus palkitaan ja rehellisyys on arvostelussa valttia.
+
+Lopeta peli -nappulasta pelin voi lopettaa milloin tahansa.
+
+Lopeta vuoro -nappulasta pelaajalle arvotaan vapaiden kirjainten joukosta uudet kirjaimet, ja vuoro siirret‰‰n seuraavalle pelaajalle. Vuorossa oleva pelaaja on rajattu vihre‰ll‰.

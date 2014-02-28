@@ -16,6 +16,8 @@ public class KirjaimetTextArea extends JTextField {
     private List kirjaimet;
 
     /**
+     * Konstruktori asettaa parametrina saadun listan oliomuuttujaan, ja
+     * määrittää muita JTextField-ominaisuuksia.
      *
      * @param kirjaimet
      */
@@ -28,6 +30,7 @@ public class KirjaimetTextArea extends JTextField {
     }
 
     /**
+     * Metodi päivittää JTextFieldissä näytettävän tekstin.
      *
      */
     public void paivitaLukumaara() { // ei testattu

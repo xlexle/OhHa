@@ -13,6 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
+ * TekstiKentanKuuntelijan tehtävä on havaita, milloin pelaaja painaa
+ * Enter-nappulaa ja aiheuttaa tapahtumaketju joka tällä halutaan saada aikaan.
  *
  * @author Ville
  */
@@ -26,6 +28,12 @@ public class TekstiKentanKuuntelija implements KeyListener {
     private PelaajaTextArea pelaaja2TextArea;
     private KirjaimetTextArea kirjaimetTextArea;
 
+    /**
+     * Konstruktorissa määritellään Pelisessio ja JFrame -oliomuuttujat.
+     *
+     * @param sessio
+     * @param frame
+     */
     public TekstiKentanKuuntelija(Pelisessio sessio, JFrame frame) {
         this.sessio = sessio;
         this.frame = frame;
@@ -35,6 +43,12 @@ public class TekstiKentanKuuntelija implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
+    /**
+     * Metodi ottaa ENTER-nappulaa painettaessa tekstikentästä tekstin, muokkaa
+     * sitä, aiheuttaa sanan lisäämisen peliin sekä lopuksi tyhjentää kentän.
+     *
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -62,7 +76,10 @@ public class TekstiKentanKuuntelija implements KeyListener {
     }
 
     /**
+     * Metodi kutsuu while-loopeissa ponnahdusikkuna-metodeja ja kutsuu sessiota
+     * lisäämään pelaajalle uuden Sana-olion, kun loopit on suoritettu.
      *
+     * @param sana
      */
     private void suoritaUudenSananLisays(String sana) {
         String merkitys = "";
@@ -82,6 +99,12 @@ public class TekstiKentanKuuntelija implements KeyListener {
         sessio.lisaaSanaPelaajalle(sana, merkitys, arvosana);
     }
 
+    /**
+     * Metodi luo ponnahdusikkunan, jossa kysytään sanan merkitys.
+     *
+     * @param frame
+     * @return  ponnahdusikkunan arvo merkkijonoesityksenä
+     */
     private String sananMerkitysDialog(JFrame frame) {
         return (String) JOptionPane.showInputDialog(
                 frame, "Mitä sana tarkoittaa?"
@@ -89,6 +112,12 @@ public class TekstiKentanKuuntelija implements KeyListener {
                 JOptionPane.QUESTION_MESSAGE, null, null, "");
     }
 
+    /**
+     * Metodi luo ponnahdusikkunan, jossa kysytään sanalle pisteytys.
+     *
+     * @param frame
+     * @return  ponnahdusikkunan arvo merkkijonoesityksenä
+     */
     private String sananPisteetDialog(JFrame frame) {
         String[] vaihtoehdot = new String[6];
         vaihtoehdot[0] = "0";
@@ -104,6 +133,10 @@ public class TekstiKentanKuuntelija implements KeyListener {
                 JOptionPane.QUESTION_MESSAGE, null, vaihtoehdot, "");
     }
 
+    /**
+     * Metodi lisää tyhjän vuoron peliin.
+     *
+     */
     public void tyhjaVuoro() {
         sessio.lisaaTyhjaSanaPelaajalle();
         sanojenListausAlue.append(sessio.getAktiivinenPelaaja().getNimi()
@@ -111,6 +144,8 @@ public class TekstiKentanKuuntelija implements KeyListener {
     }
 
     /**
+     * Metodi alustaa seuraavan vuoron päivittämällä käyttöliittymäkomponentteja
+     * ja kutsumalla sessiota vaihtamaan pelivuoroa.
      *
      */
     public void alustaSeuraavaVuoro() {

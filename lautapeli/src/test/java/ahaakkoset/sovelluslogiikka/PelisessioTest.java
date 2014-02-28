@@ -1,6 +1,7 @@
 package ahaakkoset.sovelluslogiikka;
 
 import ahaakkoset.domain.Pelaaja;
+import ahaakkoset.domain.Sana;
 import java.util.List;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -66,6 +67,13 @@ public class PelisessioTest {
         Pelisessio sessio2 = new Pelisessio();
         assertTrue(!sessio2.lisaaPelaaja("xd"));
         assertTrue(!sessio2.lisaaPelaaja("kirjaimiaonliikaa"));
+    }
+    
+    @Test
+    public void eiLisaaTyhjaaPelaajaa() {
+        Pelisessio sessio2 = new Pelisessio();
+        assertTrue(!sessio2.lisaaPelaaja(null));
+        assertTrue(!sessio2.lisaaPelaaja(""));
     }
 
     @Test
@@ -175,6 +183,19 @@ public class PelisessioTest {
     }
     
     @Test
+    public void arvoPelaajalleKirjaimiaArpooOikeanMaaran() {
+        int montako = masa.getEnintaanKirjaimia() - 3;
+        for (int i = 0; i < montako; i++) {
+            masa.lisaaKirjain('X'); // ei löydy varastosta
+        }
+        
+        assertEquals(montako, masa.getOmatKirjaimet().size());
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        sessio.arvoPelaajalleKirjaimia();
+        assertEquals(masa.getEnintaanKirjaimia(), masa.getOmatKirjaimet().size());
+    }
+    
+    @Test
     public void vaihdaPelaajanKirjaimetSailyttaaPelaajanAlkuperaisenKirjainmaaran() {
         sessio.seuraavaPelaaja(); // masa aktiivinen
         sessio.arvoPelaajalleKirjaimia();
@@ -231,5 +252,54 @@ public class PelisessioTest {
         }
         
         assertTrue(sessio.tarkistaKirjaimet("XXXXX"));
+    }
+    
+    @Test 
+    public void lisaaSanaLisaaOikeanSanan() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        
+        String sisalto = "Sana";
+        String merkitys = "Merkitys";
+        int pisteet = 1;
+        Sana sana = new Sana(sisalto, merkitys, pisteet);
+        
+        assertTrue(!masa.getLuodutSanat().contains(sana));
+        sessio.lisaaSanaPelaajalle(sisalto, merkitys, pisteet);
+        assertTrue(masa.getLuodutSanat().contains(sana));
+    }
+    
+    @Test
+    public void lisaaSanaLisaaVainYhdenSanan() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        assertEquals(0, masa.getLuodutSanat().size());
+        sessio.lisaaSanaPelaajalle("sisalto", "merkitys", 0);
+        assertEquals(1, masa.getLuodutSanat().size());
+    }
+    
+    @Test
+    public void lisaaTyhjaSanaLisaaTyhjanSanan() {
+        sessio.seuraavaPelaaja(); // masa aktiivinen
+        
+        String sisalto = "";
+        String merkitys = "";
+        int pisteet = 0;
+        Sana sana = new Sana(sisalto, merkitys, pisteet);
+        
+        assertTrue(!masa.getLuodutSanat().contains(sana));
+        sessio.lisaaTyhjaSanaPelaajalle();
+        assertTrue(masa.getLuodutSanat().contains(sana));
+    }
+    
+    @Test
+    public void vahitenVuorojaPalauttaaOikeanLuvun() {
+        assertEquals(0, sessio.vahitenVuoroja());
+        masa.lisaaVuoro();
+        assertEquals(0, sessio.vahitenVuoroja());
+        matti.lisaaVuoro();
+        assertEquals(1, sessio.vahitenVuoroja());
+        masa.lisaaVuoro();
+        assertEquals(1, sessio.vahitenVuoroja());
+        matti.lisaaVuoro();
+        assertEquals(2, sessio.vahitenVuoroja());
     }
 }

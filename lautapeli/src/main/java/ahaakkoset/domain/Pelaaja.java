@@ -13,14 +13,27 @@ import java.util.List;
  */
 public class Pelaaja {
 
+    /*
+     * Pelaajan nimi.
+     */
     private String nimi;
+    /*
+     * Pelaajan omatKirjaimet-listan maksimikoko.
+     */
     private int enintaanKirjaimia;
     /*
      * Kertyneiden vuorojen lukumäärä. Mukaan lasketaan niin väliin jätetyt 
      * kuin loppuunkin suoritetut vuorot.
      */
     private int vuoroja = 0;
+    /*
+     * Pelaajan kirjaimet (kirjaimet jotka eivät ole Kirjainvarastossa eivätkä 
+     * missään Sanassa).
+     */
     private List<Character> omatKirjaimet;
+    /*
+     * Pelaajan luomat Sanat.
+     */
     private List<Sana> luodutSanat;
 
     /**
@@ -80,7 +93,6 @@ public class Pelaaja {
      * Poistaa parametrina saadun kirjaimen pelaajalta.
      *
      * @param kirjain
-     * @return kirjain
      */
     public void poistaKirjain(Character kirjain) { // ei testattu
         omatKirjaimet.remove(kirjain);

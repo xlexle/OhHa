@@ -8,8 +8,17 @@ package ahaakkoset.domain;
  */
 public class Sana {
 
+    /*
+     * Merkkijono josta sana koostuu.
+     */
     private String sisalto;
+    /*
+     * Sanan merkitys eli määritelmä.
+     */
     private String merkitys;
+    /*
+     * Sanalle annettu arvosana.
+     */
     private int pisteet;
 
     /**
@@ -30,7 +39,7 @@ public class Sana {
      * Metodia käytetään Sanan listaamisessa pelin luodut sanat sisältävään
      * tekstikenttään sekä lopetusruudulle.
      *
-     * @return
+     * @return Sanan merkkijonoesitys
      */
     @Override
     public String toString() {
@@ -39,5 +48,20 @@ public class Sana {
 
     public int getPisteet() {
         return pisteet;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Sana verrattava = (Sana) o;
+
+        if (!verrattava.toString().equals(this.toString())) {
+            return false;
+        }
+
+        return true;
     }
 }

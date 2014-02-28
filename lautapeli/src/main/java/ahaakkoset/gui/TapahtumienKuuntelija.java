@@ -8,9 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * TapahtumienKuuntelija osaa käsitellä kaikki Käyttöliittymän kompontteihin
- * kohdistuvat tapahtumat. Kuuntelija tarkkailee muutosta jossakin
- * käyttöliittymäkomponentissa.
+ * TapahtumienKuuntelija osaa käsitellä käyttöliittymän painikkeisiin
+ * kohdistuvat tapahtumat.
  *
  * @author Ville Lehtinen
  */
@@ -28,6 +27,7 @@ public class TapahtumienKuuntelija implements ActionListener {
      *
      * @param sessio
      * @param frame
+     * @param tkk
      */
     public TapahtumienKuuntelija(Pelisessio sessio, JFrame frame, TekstiKentanKuuntelija tkk) { // ei testattu
         this.sessio = sessio;
@@ -55,6 +55,11 @@ public class TapahtumienKuuntelija implements ActionListener {
         }
     }
 
+    /**
+     * Metodi lopettaa pelin. Jos kullakin pelaajalla on vähintään yksi vuoro,
+     * näytetään ensin ponnahdusikkuna jossa tulokset lopussa.
+     *
+     */
     private void suoritaPelinLopetus() {
         if (sessio.kaikillaVahintaanYksiVuoro()) {
             JOptionPane.showMessageDialog(frame, sessio.toString(), "Pisteet lopussa", JOptionPane.PLAIN_MESSAGE); //placeholder
